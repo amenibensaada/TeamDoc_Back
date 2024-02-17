@@ -8,25 +8,25 @@ import {
   Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from './users.schema';
 import { CreateUserInput } from './dto/createUserDto';
+import { UserWithoutPassword } from './users.repository';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserWithoutPassword[]> {
     return this.usersService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<User> {
+  async findOne(@Param('id') id: string): Promise<UserWithoutPassword> {
     return this.usersService.findOne(id);
   }
 
   @Post()
-  async create(@Body() createUserDto: CreateUserInput): Promise<User> {
+  async create(@Body() createUserDto: CreateUserInput) {
     return this.usersService.create(createUserDto);
   }
 
@@ -34,12 +34,12 @@ export class UsersController {
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: CreateUserInput,
-  ): Promise<User> {
+  ): Promise<UserWithoutPassword> {
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<User> {
+  async delete(@Param('id') id: string) {
     return this.usersService.delete(id);
   }
 }
