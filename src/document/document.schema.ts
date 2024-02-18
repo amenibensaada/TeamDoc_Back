@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Folder } from 'src/folder/folder.schema';
+import { Document } from 'mongoose';
 
 export type DocumentsDocument = Documents & Document;
 
@@ -17,7 +16,8 @@ export class Documents {
 
   @Prop({ type: [String], default: [] })
   contentType: string[];
-
+  @Prop()
+  folderId: string;
 
 }
 

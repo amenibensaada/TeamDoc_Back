@@ -9,7 +9,7 @@ import { FolderRepository } from './folder.repository';
   controllers: [FolderController],
   providers: [FolderService, FolderRepository],
   imports: [
-    MongooseModule.forFeature([{ name: Folder.name, schema: FolderSchema }])
+    MongooseModule.forFeature([{ name: Folder.name, schema: FolderSchema }]),
   ],
 })
 export class FolderModule { }
