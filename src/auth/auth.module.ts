@@ -7,16 +7,29 @@ import { UsersService } from 'src/users/users.service';
 import { UserRepository } from 'src/users/users.repository';
 import { UsersController } from 'src/users/users.controller';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
     UsersModule,
-    JwtModule.register({
-      secret: 'teamDocDOC',
-      signOptions: { expiresIn: '1d' },
+
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async () => ({
+        secret: 'teamDocDOC',
+        signOptions: { expiresIn: '1d' },
+      }),
+      inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, UsersService, UserRepository],
+  providers: [
+    AuthService,
+    UsersService,
+    UserRepository,
+    JwtStrategy,
+    ConfigService,
+  ],
   controllers: [AuthController, UsersController],
 })
 export class AuthModule {}
