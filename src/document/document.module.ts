@@ -4,6 +4,7 @@ import { Documents, DocumentsSchema } from './document.schema';
 import { DocumentService } from './document.service';
 import { DocumentsRepository } from './document.repository';
 import { DocumentController } from './document.controller';
+import { Folder, FolderSchema } from 'src/folder/folder.schema';
 
 @Module({
   controllers: [DocumentController],
@@ -11,6 +12,8 @@ import { DocumentController } from './document.controller';
   imports: [
     MongooseModule.forFeature([
       { name: Documents.name, schema: DocumentsSchema },
+      { name: Folder.name, schema: FolderSchema }
+
     ]),
   ],
 })

@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Folder } from 'src/folder/folder.schema' ;
+import { Folder } from 'src/folder/folder.schema';
 
 export type DocumentsDocument = Documents & Document;
 
 @Schema()
 export class Documents {
 
-  @Prop({unique : true ,required:true})
+  @Prop({ unique: true, required: true })
   Title: string;
   @Prop({ type: Date, default: Date.now })
   createdDate: Date;
@@ -18,8 +18,6 @@ export class Documents {
   @Prop({ type: [String], default: [] })
   contentType: string[];
 
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Folder' }] })
-  Folders: Folder[];
 
 }
 

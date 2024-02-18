@@ -26,6 +26,8 @@ const Documentsvalidationlayer = z.object({
       },
       { message: 'Update date must be later than creation date' },
     ),
+
+  folderId: z.string()
 });
 
 

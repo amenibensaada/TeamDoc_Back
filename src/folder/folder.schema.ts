@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-
 import { DocumentsDocument } from 'src/document/document.schema';
+
 
 export type FolerDocument = Folder & Document;
 
