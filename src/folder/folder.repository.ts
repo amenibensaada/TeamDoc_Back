@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Folder } from './folder.schema';
 import { Model } from 'mongoose';
-import { createFolderDTOlayer } from './dto/create-folder-crud.dto';
+import { createFolderDTOlayer } from './dto/create-folder.dto';
 
 
 
 @Injectable()
-export class FolderCrudRepository {
-  constructor(@InjectModel(Folder.name) private folderModel: Model<Folder>) {}
+export class FolderRepository {
+  constructor(@InjectModel(Folder.name) private folderModel: Model<Folder>) { }
 
   async create(foldervalidationlayer: createFolderDTOlayer): Promise<Folder> {
     const createFolder = new this.folderModel(foldervalidationlayer);
@@ -35,7 +35,7 @@ export class FolderCrudRepository {
 
   async remove(id: number): Promise<Folder> {
     return this.folderModel.findByIdAndDelete(id).exec();
-}
+  }
 
 
 }

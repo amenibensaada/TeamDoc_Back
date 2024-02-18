@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Folder } from './folder.schema';
-import { FolderCrudRepository } from './folder-crud.repository';
+import { FolderRepository } from './folder.repository';
 
 
 @Injectable()
-export class FolderCrudService {
-  constructor(private folderRepositroy: FolderCrudRepository) {}
+export class FolderService {
+  constructor(private folderRepositroy: FolderRepository) {}
 
   async findAll() {
     return this.folderRepositroy.findAll();

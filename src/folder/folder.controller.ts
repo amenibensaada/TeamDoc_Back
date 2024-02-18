@@ -1,4 +1,3 @@
-import { FolderCrudService } from './folder-crud.service';
 import {
   Controller,
   Get,
@@ -9,12 +8,13 @@ import {
   Delete,
 } from '@nestjs/common';
 import { Folder } from './folder.schema';
-import { createFolderDTOlayer } from './dto/create-folder-crud.dto';
+import { createFolderDTOlayer } from './dto/create-folder.dto';
+import { FolderService } from './folder.service';
 ;
 
 @Controller('folder')
-export class FolderCrudController {
-  constructor(private readonly folderService: FolderCrudService) {}
+export class FolderController {
+  constructor(private readonly folderService: FolderService) { }
   @Get()
   async findAll(): Promise<Folder[]> {
     return this.folderService.findAll();
@@ -23,14 +23,14 @@ export class FolderCrudController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Folder> {
     return this.folderService.findOne(+id);
-  } 
+  }
 
   @Post()
   async create(@Body() createFolderDto: createFolderDTOlayer): Promise<Folder> {
     return this.folderService.create(createFolderDto);
   }
 
- 
+
 
   @Patch(':id')
   async update(

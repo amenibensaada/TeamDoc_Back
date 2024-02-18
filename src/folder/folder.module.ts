@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { FolderCrudService } from './folder-crud.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Folder, FolderSchema } from './folder.schema';
-import { FolderCrudController } from './folder-crud.controller';
+import { FolderCrudController } from './folder.controller';
+import { FolderService } from './folder.service';
 
 @Module({
   controllers: [FolderCrudController],
-  providers: [FolderCrudService],
+  providers: [FolderService],
   imports: [
     MongooseModule.forFeature([{ name: Folder.name, schema: FolderSchema }])
   ],
 })
-export class FolderCrudModule {}
+export class FolderModule { }
