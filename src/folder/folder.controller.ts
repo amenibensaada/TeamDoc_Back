@@ -10,7 +10,7 @@ import {
 import { Folder } from './folder.schema';
 import { createFolderDTOlayer } from './dto/create-folder.dto';
 import { FolderService } from './folder.service';
-;
+
 
 @Controller('folder')
 export class FolderController {
