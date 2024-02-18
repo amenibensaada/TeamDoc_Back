@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Folder } from 'src/folder-crud/folder.schema';
+import { Document } from 'mongoose';
+//import { Folder } from 'src/folder-crud/folder.schema'  Schema as MongooseSchema;
 
 export type DocumentsDocument = Documents & Document;
 
@@ -18,8 +18,8 @@ export class Documents {
   @Prop({ type: [String], default: [] })
   contentType: string[];
 
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Folder' }] })
-  Folders: Folder[];
+  //@Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Folder' }] })
+ // Folders: Folder[];
 
 }
 

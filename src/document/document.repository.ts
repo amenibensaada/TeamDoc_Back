@@ -2,18 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Documents } from './document.schema';
-import { createDocumentsDTOlayer } from './dto/create-document-crud.dto';
+import { createDocumentsDTOlayer } from './dto/create-document.dto';
 
 
 
 @Injectable()
-export class DocumentsCrudRepository {
+export class DocumentsRepository {
   constructor(
     @InjectModel(Documents.name) private DocumentsModel: Model<Documents>,
   ) {}
 
   async create(
-    documentsvalidationlayer: createDocumentsDTOlayer,
+    documentsvalidationlayer: createDocumentsDTOlayer
   ): Promise<Documents> {
     const createDocuments = new this.DocumentsModel(documentsvalidationlayer);
     const savedDocuments = await createDocuments.save();
@@ -37,7 +37,5 @@ export class DocumentsCrudRepository {
 
   async remove(id: number): Promise<Documents> {
     return this.DocumentsModel.findByIdAndDelete(id).exec();
-}
-
-
+  }
 }

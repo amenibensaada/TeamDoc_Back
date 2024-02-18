@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { DocumentsCrudRepository } from './document-crud.repository';
 import { Documents } from './document.schema';
+import { DocumentsRepository } from './document.repository';
 
 @Injectable()
-export class DocumentCrudService {
-  constructor(private DocRepositroy: DocumentsCrudRepository) {}
+export class DocumentService {
+  constructor(private DocRepositroy: DocumentsRepository) { }
 
   async findAll() {
     return this.DocRepositroy.findAll();
@@ -20,7 +20,7 @@ export class DocumentCrudService {
     return this.DocRepositroy.create(createDocValidator);
   }
 
- 
+
 
   async update(id: number, createDocValidator: any) {
     return this.DocRepositroy.update(id, createDocValidator);

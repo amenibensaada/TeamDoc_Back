@@ -18,12 +18,17 @@ const Documentsvalidationlayer = z.object({
   updatedDate: z
     .string()
     .datetime()
-    .refine((value) => value >= this.createdDate, {
-      message: 'Update date must be later than creation date',
-  }),
+    .refine(
+      function (value) {
+        return this.createdDate !== undefined
+          ? value >= this.createdDate
+          : true;
+      },
+      { message: 'Update date must be later than creation date' },
+    ),
 });
 
 
 export class createDocumentsDTOlayer extends createZodDto(
-  Documentsvalidationlayer,
+  Documentsvalidationlayer
 ) {}

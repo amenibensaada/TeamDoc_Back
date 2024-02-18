@@ -7,13 +7,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { DocumentCrudService } from './document-crud.service';
 import { Documents } from './document.schema';
-import { createDocumentsDTOlayer } from './dto/create-document-crud.dto';
+import { createDocumentsDTOlayer } from './dto/create-document.dto';
+import { DocumentService } from './document.service';
 
-@Controller('document-crud')
-export class DocumentCrudController {
-  constructor(private readonly DocService: DocumentCrudService) {}
+@Controller('Document')
+export class DocumentController {
+  constructor(private readonly DocService: DocumentService) { }
   @Get()
   async findAll(): Promise<Documents[]> {
     return this.DocService.findAll();
@@ -22,7 +22,7 @@ export class DocumentCrudController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Documents> {
     return this.DocService.findOne(+id);
-  } 
+  }
 
   @Post()
   async create(
@@ -31,7 +31,7 @@ export class DocumentCrudController {
     return this.DocService.create(Documentsvalidator);
   }
 
- 
+
 
   @Patch(':id')
   async update(
