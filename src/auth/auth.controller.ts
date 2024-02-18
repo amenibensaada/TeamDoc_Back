@@ -18,7 +18,7 @@ export class AuthController {
     private readonly authService: AuthService,
   ) {}
   @Post('signup')
-  async create(@Body() createUserDto: CreateUserInput, @Req() req) {
+  async create(@Body() createUserDto: CreateUserInput) {
     return this.usersService.create(createUserDto);
   }
   @Post('login')
