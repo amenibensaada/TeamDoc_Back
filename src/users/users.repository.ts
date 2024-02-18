@@ -54,6 +54,6 @@ export class UserRepository {
   async getOneWithPassword(params: {
     where?: Partial<User>;
   }): Promise<User | null> {
-    return this.userModel.findOne(params.where).exec();
+    return this.userModel.findOne(params.where).lean().exec();
   }
 }

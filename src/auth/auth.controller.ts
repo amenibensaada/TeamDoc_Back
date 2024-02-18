@@ -4,13 +4,12 @@ import {
   HttpException,
   HttpStatus,
   Post,
-  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CreateUserInput } from 'src/users/dto/createUserDto';
 import { UsersService } from 'src/users/users.service';
 import { LoginUserDto } from './dto/login-user.input';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -19,8 +18,7 @@ export class AuthController {
     private readonly authService: AuthService,
   ) {}
   @Post('signup')
-  @UseGuards(AuthGuard('jwt'))
-  async create(@Body() createUserDto: CreateUserInput) {
+  async create(@Body() createUserDto: CreateUserInput, @Req() req) {
     return this.usersService.create(createUserDto);
   }
   @Post('login')
