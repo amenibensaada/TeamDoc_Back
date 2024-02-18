@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Folder } from 'src/folder-crud/folder.schema' ;
+import { Folder } from 'src/folder/folder.schema' ;
 
 export type DocumentsDocument = Documents & Document;
 
