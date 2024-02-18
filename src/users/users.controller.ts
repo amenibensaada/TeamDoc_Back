@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Put,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Body, Param, Put, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserInput } from './dto/createUserDto';
 import { UserWithoutPassword } from './users.repository';
@@ -23,11 +15,6 @@ export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<UserWithoutPassword> {
     return this.usersService.findOne(id);
-  }
-
-  @Post()
-  async create(@Body() createUserDto: CreateUserInput) {
-    return this.usersService.create(createUserDto);
   }
 
   @Put(':id')

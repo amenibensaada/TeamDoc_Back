@@ -50,4 +50,10 @@ export class UserRepository {
     const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
     return this.exclude(deletedUser.toObject(), ['password']);
   }
+
+  async getOneWithPassword(params: {
+    where?: Partial<User>;
+  }): Promise<User | null> {
+    return this.userModel.findOne(params.where).exec();
+  }
 }
