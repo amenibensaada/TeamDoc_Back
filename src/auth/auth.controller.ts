@@ -4,7 +4,6 @@ import {
   HttpException,
   HttpStatus,
   Post,
-  Req,
 } from '@nestjs/common';
 import { CreateUserInput } from 'src/users/dto/createUserDto';
 import { UsersService } from 'src/users/users.service';
