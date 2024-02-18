@@ -4,13 +4,13 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DocumentModule } from './document/document.module';
-//import { FolderCrudModule } from './folder-crud/folder-crud.module';
+import { FolderCrudModule } from './folder/folder.module';
 
 @Module({
   imports: [
     UsersModule,
     MongooseModule.forRoot('mongodb://127.0.0.1:27017/docManagment'),
-    // FolderCrudModule,
+    FolderCrudModule,
     DocumentModule
   ],
   controllers: [AppController],
