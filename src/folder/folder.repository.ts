@@ -21,11 +21,11 @@ export class FolderRepository {
     return this.folderModel.find().exec();
   }
 
-  async findOne(id: number): Promise<Folder> {
+  async findOne(id: string): Promise<Folder> {
     return this.folderModel.findById(id).exec();
   }
 
-  async update(id: number, updateFolderDto: any) {
+  async update(id: string, updateFolderDto: any) {
     return this.folderModel
       .findByIdAndUpdate(id, updateFolderDto, {
         new: true,
@@ -33,7 +33,7 @@ export class FolderRepository {
       .exec();
   }
 
-  async remove(id: number): Promise<Folder> {
+  async remove(id: string): Promise<Folder> {
     return this.folderModel.findByIdAndDelete(id).exec();
   }
 

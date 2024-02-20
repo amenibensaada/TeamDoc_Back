@@ -22,7 +22,7 @@ export class FolderController {
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Folder> {
-    return this.folderService.findOne(+id);
+    return this.folderService.findOne(id);
   }
 
   @Post()
@@ -37,11 +37,11 @@ export class FolderController {
     @Param('id') id: string,
     @Body() updateFolderDto: createFolderDTOlayer,
   ): Promise<Folder> {
-    return this.folderService.update(+id, updateFolderDto);
+    return this.folderService.update(id, updateFolderDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Folder> {
-    return this.folderService.remove(+id);
+    return this.folderService.remove(id);
   }
 }

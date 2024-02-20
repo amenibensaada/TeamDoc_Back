@@ -16,9 +16,8 @@ export class Documents {
 
   @Prop({ type: [String], default: [] })
   contentType: string[];
-  @Prop()
-  folderId: string;
-
+  @Prop({ required: false })
+  folderId?: string;
 }
 
 export const DocumentsSchema = SchemaFactory.createForClass(Documents);

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { Documents } from './document.schema';
 import { createDocumentsDTOlayer } from './dto/create-document.dto';
@@ -21,9 +22,8 @@ export class DocumentController {
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Documents> {
-    return this.DocService.findOne(+id);
+    return this.DocService.findOne(id);
   }
-
   @Post()
   async create(
     @Body() Documentsvalidator: createDocumentsDTOlayer,
@@ -32,17 +32,34 @@ export class DocumentController {
   }
 
 
+  @Post('/createavecaffectation')
+  async createavecsaffection(
+    @Body() Documentsvalidator: createDocumentsDTOlayer
+  ): Promise<Documents> {
+    return this.DocService.createavecaffectation(Documentsvalidator);
+  }
+  
+  @Post('/createDocandfolder/:folderName')
+
+  async createDocandfolder(
+    @Body() Documentsvalidator: createDocumentsDTOlayer,
+    @Param('folderName') folderName: string,
+  ): Promise<Documents> {
+    return this.DocService.createDocandfolder(Documentsvalidator, folderName);
+  }
+  
+
 
   @Patch(':id')
   async update(
     @Param('id') id: string,
     @Body() updatedocuDto: createDocumentsDTOlayer,
   ): Promise<Documents> {
-    return this.DocService.update(+id, updatedocuDto);
+    return this.DocService.update(id, updatedocuDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Documents> {
-    return this.DocService.remove(+id);
+    return this.DocService.remove(id);
   }
 }

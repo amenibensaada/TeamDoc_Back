@@ -10,7 +10,7 @@ export class DocumentService {
     return this.DocRepositroy.findAll();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return this.DocRepositroy.findOne(id);
   }
 
@@ -21,12 +21,27 @@ export class DocumentService {
   }
 
 
+  async createavecaffectation(createDocValidator: any): Promise<Documents> {
+    return this.DocRepositroy.createavecaffectation(createDocValidator);
+  }
 
-  async update(id: number, createDocValidator: any) {
+  
+  async createDocandfolder(
+    createDocValidator: any,
+    foldername: string,
+  ): Promise<Documents> {
+    return this.DocRepositroy.createDocandfolder(
+      createDocValidator,
+      foldername,
+    );
+
+   }
+
+  async update(id: string, createDocValidator: any) {
     return this.DocRepositroy.update(id, createDocValidator);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return this.DocRepositroy.remove(id);
   }
 }

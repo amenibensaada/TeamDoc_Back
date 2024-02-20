@@ -11,7 +11,7 @@ export class FolderService {
     return this.folderRepositroy.findAll();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return this.folderRepositroy.findOne(id);
   }
 
@@ -23,11 +23,11 @@ export class FolderService {
 
  
 
-  async update(id: number, updateFolderDto: any) {
+  async update(id: string, updateFolderDto: any) {
     return this.folderRepositroy.update(id, updateFolderDto);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return this.folderRepositroy.remove(id);
   }
 }
