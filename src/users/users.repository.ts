@@ -3,30 +3,57 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './users.schema';
 import { CreateUserInput } from './dto/createUserDto';
-
+export type UserWithoutPassword = Omit<
+  User,
+  'password' | 'resetTokenExpiry' | 'resetToken' | 'verificationToken'
+>;
 @Injectable()
 export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async create(createUserDto: CreateUserInput): Promise<User> {
-    const createdUser = new this.userModel(createUserDto);
-    return createdUser.save();
+  exclude<User, Key extends keyof User>(
+    user: User,
+    keys: Key[],
+  ): Omit<User, Key> {
+    for (const key of keys) {
+      delete user[key];
+    }
+    return user;
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
-  }
-  async findOne(id: string): Promise<User> {
-    return this.userModel.findById(id).exec();
+  async create(user: CreateUserInput): Promise<UserWithoutPassword> {
+    const createdUser = new this.userModel(user);
+
+    const savedUser = await createdUser.save();
+    const result = savedUser.toObject();
+    return this.exclude(result, ['password']);
   }
 
-  async update(id: string, updateUserDto: any): Promise<User> {
-    return this.userModel
+  async findAll(): Promise<UserWithoutPassword[]> {
+    const users = await this.userModel.find().exec();
+    return users.map((user) => this.exclude(user.toObject(), ['password']));
+  }
+
+  async findOne(id: string): Promise<UserWithoutPassword> {
+    const user = await this.userModel.findById(id).exec();
+    return this.exclude(user.toObject(), ['password']);
+  }
+
+  async update(id: string, updateUserDto: any): Promise<UserWithoutPassword> {
+    const updatedUser = await this.userModel
       .findByIdAndUpdate(id, updateUserDto, { new: true })
       .exec();
+    return this.exclude(updatedUser.toObject(), ['password']);
   }
 
-  async delete(id: string): Promise<User> {
-    return this.userModel.findByIdAndDelete(id).exec();
+  async delete(id: string): Promise<UserWithoutPassword> {
+    const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
+    return this.exclude(deletedUser.toObject(), ['password']);
+  }
+
+  async getOneWithPassword(params: {
+    where?: Partial<User>;
+  }): Promise<User | null> {
+    return this.userModel.findOne(params.where).lean().exec();
   }
 }
