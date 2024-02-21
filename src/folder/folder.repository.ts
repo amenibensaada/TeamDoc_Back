@@ -4,11 +4,9 @@ import { Folder } from './folder.schema';
 import { Model } from 'mongoose';
 import { createFolderDTOlayer } from './dto/create-folder.dto';
 
-
-
 @Injectable()
 export class FolderRepository {
-  constructor(@InjectModel(Folder.name) private folderModel: Model<Folder>) { }
+  constructor(@InjectModel(Folder.name) private folderModel: Model<Folder>) {}
 
   async create(foldervalidationlayer: createFolderDTOlayer): Promise<Folder> {
     const createFolder = new this.folderModel(foldervalidationlayer);
@@ -36,6 +34,4 @@ export class FolderRepository {
   async remove(id: string): Promise<Folder> {
     return this.folderModel.findByIdAndDelete(id).exec();
   }
-
-
 }

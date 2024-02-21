@@ -1,11 +1,9 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Documents } from './document.schema';
 import { createDocumentsDTOlayer } from './dto/create-document.dto';
 import { Folder } from 'src/folder/folder.schema';
-
-
 
 @Injectable()
 export class DocumentsRepository {
@@ -14,11 +12,9 @@ export class DocumentsRepository {
     @InjectModel(Folder.name) private FolderModel: Model<Folder>,
   ) {}
 
-
-
   //Simple Create of documents
   async create(
-    documentsvalidationlayer: createDocumentsDTOlayer
+    documentsvalidationlayer: createDocumentsDTOlayer,
   ): Promise<Documents> {
     const createDocuments = new this.DocumentsModel(documentsvalidationlayer);
     const savedDocuments = await createDocuments.save();
@@ -26,24 +22,23 @@ export class DocumentsRepository {
     return savedDocuments;
   }
 
-  async createavecaffectation(
-    {folderId,
+  async createavecaffectation({
+    folderId,
     ...documentsvalidationlayer
   }: createDocumentsDTOlayer): Promise<Documents> {
     const findFolder = await this.FolderModel.findById(folderId);
     if (!findFolder) return null;
     const createDocuments = new this.DocumentsModel(documentsvalidationlayer);
     const savedDocuments = await createDocuments.save();
-     await findFolder.updateOne({
+    await findFolder.updateOne({
       $push: {
         documents: savedDocuments.id,
-      }
-     })
+      },
+    });
     // const folderArray: Folder[] = [savedFolder];
     return savedDocuments;
   }
 
- 
   async findAll(): Promise<Documents[]> {
     return this.DocumentsModel.find().exec();
   }
@@ -62,7 +57,10 @@ export class DocumentsRepository {
     return this.DocumentsModel.findByIdAndDelete(id).exec();
   }
 
-  async createDocandfolder({ folderId, ...documentsValidationLayer }: createDocumentsDTOlayer, folderName:string ): Promise<Documents> {
+  async createDocandfolder(
+    { folderId, ...documentsValidationLayer }: createDocumentsDTOlayer,
+    folderName: string,
+  ): Promise<Documents> {
     let savedDocuments;
     let findFolder;
     if (folderId) {
@@ -77,12 +75,10 @@ export class DocumentsRepository {
       await this.FolderModel.findByIdAndUpdate(findFolder._id, {
         $push: {
           documents: savedDocuments._id,
-        }
-    });
+        },
+      });
 
-    return savedDocuments;
+      return savedDocuments;
+    }
   }
-
-
-
-}}
+}

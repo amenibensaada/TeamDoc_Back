@@ -16,4 +16,4 @@ import { Folder, FolderSchema } from 'src/folder/folder.schema';
     ]),
   ],
 })
-export class DocumentModule { }
+export class DocumentModule {}

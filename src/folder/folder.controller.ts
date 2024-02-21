@@ -11,10 +11,9 @@ import { Folder } from './folder.schema';
 import { createFolderDTOlayer } from './dto/create-folder.dto';
 import { FolderService } from './folder.service';
 
-
 @Controller('folder')
 export class FolderController {
-  constructor(private readonly folderService: FolderService) { }
+  constructor(private readonly folderService: FolderService) {}
   @Get()
   async findAll(): Promise<Folder[]> {
     return this.folderService.findAll();
@@ -29,8 +28,6 @@ export class FolderController {
   async create(@Body() createFolderDto: createFolderDTOlayer): Promise<Folder> {
     return this.folderService.create(createFolderDto);
   }
-
-
 
   @Patch(':id')
   async update(

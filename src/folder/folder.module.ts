@@ -12,4 +12,4 @@ import { FolderRepository } from './folder.repository';
     MongooseModule.forFeature([{ name: Folder.name, schema: FolderSchema }]),
   ],
 })
-export class FolderModule { }
+export class FolderModule {}

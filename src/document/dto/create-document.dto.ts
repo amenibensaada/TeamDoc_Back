@@ -9,7 +9,7 @@ const Documentsvalidationlayer = z.object({
     })
     .min(3, { message: 'Title must be at least 3 characters long' })
     .max(50, { message: 'Title cannot exceed 50 characters' }),
-    
+
   createdDate: z
     .string()
     .datetime()
@@ -28,11 +28,9 @@ const Documentsvalidationlayer = z.object({
     ),
 
   folderId: z.string(),
-  folderName: z.string()
-
+  folderName: z.string(),
 });
 
-
 export class createDocumentsDTOlayer extends createZodDto(
-  Documentsvalidationlayer
+  Documentsvalidationlayer,
 ) {}

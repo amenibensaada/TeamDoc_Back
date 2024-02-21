@@ -4,7 +4,7 @@ import { DocumentsRepository } from './document.repository';
 
 @Injectable()
 export class DocumentService {
-  constructor(private DocRepositroy: DocumentsRepository) { }
+  constructor(private DocRepositroy: DocumentsRepository) {}
 
   async findAll() {
     return this.DocRepositroy.findAll();
@@ -14,18 +14,14 @@ export class DocumentService {
     return this.DocRepositroy.findOne(id);
   }
 
-
-
   async create(createDocValidator: any): Promise<Documents> {
     return this.DocRepositroy.create(createDocValidator);
   }
-
 
   async createavecaffectation(createDocValidator: any): Promise<Documents> {
     return this.DocRepositroy.createavecaffectation(createDocValidator);
   }
 
-  
   async createDocandfolder(
     createDocValidator: any,
     foldername: string,
@@ -34,8 +30,7 @@ export class DocumentService {
       createDocValidator,
       foldername,
     );
-
-   }
+  }
 
   async update(id: string, createDocValidator: any) {
     return this.DocRepositroy.update(id, createDocValidator);
