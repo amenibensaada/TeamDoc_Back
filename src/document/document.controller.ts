@@ -12,6 +12,7 @@ import { createDocumentsDTOlayer } from './dto/create-document.dto';
 import { DocumentService } from './document.service';
 
 @Controller('Document')
+
 export class DocumentController {
   constructor(private readonly DocService: DocumentService) {}
   @Get()
