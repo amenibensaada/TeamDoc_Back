@@ -1,18 +1,25 @@
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'nestjs-zod/z';
-import { passwordRegex } from './reset-password.input';
 
 export const CreateUserInputValidator = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  email: z.string(),
+  firstName: z
+    .string()
+    .min(2)
+    .max(50)
+    .regex(/^[a-zA-Z]+$/, { message: 'Name must contain only letters.' }),
+  lastName: z
+    .string()
+    .min(2)
+    .max(50)
+    .regex(/^[a-zA-Z]+$/, { message: 'Name must contain only letters.' }),
+  email: z.string().email(),
   password: z
     .string()
     .min(6)
-    .regex(
-      passwordRegex,
-      'Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 digit, and 1 special character',
-    ),
+    .regex(/[0-9]/, { message: 'Password must contain at least one digit.' })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      message: 'Password must contain at least one special character.',
+    }),
   confirmPassword: z.string(),
 });
 
