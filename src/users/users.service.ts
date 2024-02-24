@@ -3,6 +3,7 @@ import { UserRepository } from './users.repository';
 import { CreateUserInput } from './dto/createUserDto';
 import { hash, compare } from 'bcryptjs';
 import { LoginUserDto } from 'src/auth/dto/login-user.input';
+import { User } from './users.schema';
 
 @Injectable()
 export class UsersService {
@@ -31,8 +32,16 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, updateUserDto: CreateUserInput) {
+  async update(id: string, updateUserDto: Partial<User>) {
     return this.userRepository.update(id, updateUserDto);
+  }
+
+  async resetPassword(id: string, password: string) {
+    return this.update(id, {
+      password,
+      resetToken: null,
+      resetTokenExpiry: null,
+    });
   }
   async delete(id: string) {
     return this.userRepository.delete(id);
@@ -55,7 +64,7 @@ export class UsersService {
     return rest;
   }
 
-  async findOneByResetToken(token: string) {
+  async findOneByResetToken(token: string): Promise<User | null> {
     return this.userRepository.getOneWithPassword({
       where: {
         resetToken: token,

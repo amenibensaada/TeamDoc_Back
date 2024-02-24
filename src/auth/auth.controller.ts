@@ -9,6 +9,8 @@ import { CreateUserInput } from 'src/users/dto/createUserDto';
 import { UsersService } from 'src/users/users.service';
 import { LoginUserDto } from './dto/login-user.input';
 import { AuthService } from './auth.service';
+import { EmailUserInput } from 'src/users/dto/emailUserDto';
+import { ResetPasswordInput } from 'src/users/dto/reset-password.input';
 
 @Controller('auth')
 export class AuthController {
@@ -28,7 +30,14 @@ export class AuthController {
     if (!user) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
-
     return user;
+  }
+  @Post('resetPassword')
+  async resetPassword(@Body() input: ResetPasswordInput) {
+    return this.authService.resetPassword(input);
+  }
+  @Post('forgetPassword')
+  async forgetPassword(@Body() input: EmailUserInput) {
+    return this.authService.forgetPassword(input.email);
   }
 }
