@@ -12,8 +12,8 @@ import { Folder, FolderSchema } from 'src/folder/folder.schema';
   imports: [
     MongooseModule.forFeature([
       { name: Documents.name, schema: DocumentsSchema },
-      { name: Folder.name, schema: FolderSchema },
-    ]),
-  ],
+      { name: Folder.name, schema: FolderSchema }
+    ])
+  ]
 })
 export class DocumentModule {}

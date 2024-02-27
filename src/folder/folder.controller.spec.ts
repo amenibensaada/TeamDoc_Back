@@ -8,7 +8,7 @@ describe('FolderCrudController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [FolderController],
-      providers: [FolderService],
+      providers: [FolderService]
     }).compile();
 
     controller = module.get<FolderController>(FolderController);

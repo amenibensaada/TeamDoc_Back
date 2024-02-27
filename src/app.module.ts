@@ -14,12 +14,12 @@ import { DocumentModule } from './document/document.module';
     MongooseModule.forRoot('mongodb://127.0.0.1:27017/docManagment'),
     AuthModule,
     ConfigModule.forRoot({
-      envFilePath: ['.env'],
+      envFilePath: ['.env']
     }),
     FolderModule,
-    DocumentModule,
+    DocumentModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}

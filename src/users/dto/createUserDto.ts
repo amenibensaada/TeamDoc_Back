@@ -18,9 +18,9 @@ export const CreateUserInputValidator = z.object({
     .min(6)
     .regex(/[0-9]/, { message: 'Password must contain at least one digit.' })
     .regex(/[!@#$%^&*(),.?":{}|<>]/, {
-      message: 'Password must contain at least one special character.',
+      message: 'Password must contain at least one special character.'
     }),
-  confirmPassword: z.string(),
+  confirmPassword: z.string()
 });
 
 export class CreateUserInput extends createZodDto(CreateUserInputValidator) {}

@@ -11,7 +11,7 @@ export class Folder {
   @Prop({ type: Date, default: Date.now })
   createdDate: Date;
   @Prop({
-    type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Documents' }],
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Documents' }]
   })
   documents: Documents[];
 }
