@@ -20,7 +20,7 @@ export class UsersController {
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateUserDto: CreateUserInput,
+    @Body() updateUserDto: CreateUserInput
   ): Promise<UserWithoutPassword> {
     return this.usersService.update(id, updateUserDto);
   }

@@ -26,7 +26,7 @@ export class FolderRepository {
   async update(id: string, updateFolderDto: any) {
     return this.folderModel
       .findByIdAndUpdate(id, updateFolderDto, {
-        new: true,
+        new: true
       })
       .exec();
   }

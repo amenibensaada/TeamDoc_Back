@@ -6,7 +6,7 @@ describe('FolderService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FolderService],
+      providers: [FolderService]
     }).compile();
 
     service = module.get<FolderService>(FolderService);

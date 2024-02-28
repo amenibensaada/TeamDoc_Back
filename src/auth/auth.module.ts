@@ -18,18 +18,12 @@ import { JwtStrategy } from './jwt.strategy';
       imports: [ConfigModule],
       useFactory: async () => ({
         secret: 'teamDocDOC',
-        signOptions: { expiresIn: '1d' },
+        signOptions: { expiresIn: '1d' }
       }),
-      inject: [ConfigService],
-    }),
+      inject: [ConfigService]
+    })
   ],
-  providers: [
-    AuthService,
-    UsersService,
-    UserRepository,
-    JwtStrategy,
-    ConfigService,
-  ],
-  controllers: [AuthController, UsersController],
+  providers: [AuthService, UsersService, UserRepository, JwtStrategy, ConfigService],
+  controllers: [AuthController, UsersController]
 })
 export class AuthModule {}

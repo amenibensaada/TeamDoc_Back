@@ -11,10 +11,7 @@ export type UserWithoutPassword = Omit<
 export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  exclude<User, Key extends keyof User>(
-    user: User,
-    keys: Key[],
-  ): Omit<User, Key> {
+  exclude<User, Key extends keyof User>(user: User, keys: Key[]): Omit<User, Key> {
     for (const key of keys) {
       delete user[key];
     }
@@ -51,9 +48,7 @@ export class UserRepository {
     return this.exclude(deletedUser.toObject(), ['password']);
   }
 
-  async getOneWithPassword(params: {
-    where?: Partial<User>;
-  }): Promise<User | null> {
+  async getOneWithPassword(params: { where?: Partial<User> }): Promise<User | null> {
     return this.userModel.findOne(params.where).lean().exec();
   }
 }

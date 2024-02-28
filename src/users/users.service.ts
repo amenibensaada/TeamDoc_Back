@@ -17,8 +17,7 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserInput) {
-    const { password, confirmPassword, firstName, lastName, ...rest } =
-      createUserDto;
+    const { password, confirmPassword, firstName, lastName, ...rest } = createUserDto;
     if (password !== confirmPassword) {
       throw new HttpException("Passwords don't match", HttpStatus.UNAUTHORIZED);
     }
@@ -27,7 +26,7 @@ export class UsersService {
       password: hashedPassword,
       firstName: firstName,
       lastName: lastName,
-      ...rest,
+      ...rest
     });
     return user;
   }
@@ -40,7 +39,7 @@ export class UsersService {
     return this.update(id, {
       password,
       resetToken: null,
-      resetTokenExpiry: null,
+      resetTokenExpiry: null
     });
   }
   async delete(id: string) {
@@ -49,7 +48,7 @@ export class UsersService {
 
   async login({ email, password }: LoginUserDto) {
     const user = await this.userRepository.getOneWithPassword({
-      where: { email },
+      where: { email }
     });
     if (!user) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
@@ -67,13 +66,13 @@ export class UsersService {
   async findOneByResetToken(token: string): Promise<User | null> {
     return this.userRepository.getOneWithPassword({
       where: {
-        resetToken: token,
-      },
+        resetToken: token
+      }
     });
   }
   async findOneByEmailWithPassword(email: string) {
     return this.userRepository.getOneWithPassword({
-      where: { email },
+      where: { email }
     });
   }
 }

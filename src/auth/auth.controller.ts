@@ -1,10 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpException,
-  HttpStatus,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { CreateUserInput } from 'src/users/dto/createUserDto';
 import { UsersService } from 'src/users/users.service';
 import { LoginUserDto } from './dto/login-user.input';
@@ -16,7 +10,7 @@ import { ResetPasswordInput } from 'src/users/dto/reset-password.input';
 export class AuthController {
   constructor(
     private readonly usersService: UsersService,
-    private readonly authService: AuthService,
+    private readonly authService: AuthService
   ) {}
   @Post('signup')
   async create(@Body() createUserDto: CreateUserInput) {

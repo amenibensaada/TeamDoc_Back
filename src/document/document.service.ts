@@ -22,14 +22,8 @@ export class DocumentService {
     return this.DocRepositroy.createavecaffectation(createDocValidator);
   }
 
-  async createDocandfolder(
-    createDocValidator: any,
-    foldername: string,
-  ): Promise<Documents> {
-    return this.DocRepositroy.createDocandfolder(
-      createDocValidator,
-      foldername,
-    );
+  async createDocandfolder(createDocValidator: any, foldername: string): Promise<Documents> {
+    return this.DocRepositroy.createDocandfolder(createDocValidator, foldername);
   }
 
   async update(id: string, createDocValidator: any) {

@@ -5,7 +5,6 @@ export type DocumentsDocument = Documents & Document;
 
 @Schema()
 export class Documents {
-  
   @Prop({ unique: true, required: true })
   Title: string;
   @Prop({ type: Date, default: Date.now })
