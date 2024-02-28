@@ -48,7 +48,8 @@ export class UserRepository {
     return this.exclude(deletedUser.toObject(), ['password']);
   }
 
-  async getOneWithPassword(params: { where?: Partial<User> }): Promise<User | null> {
-    return this.userModel.findOne(params.where).lean().exec();
+  async getOneWithPassword(params: { where?: Partial<User> }) {
+    const user = await this.userModel.findOne(params.where).lean().exec();
+    return user;
   }
 }

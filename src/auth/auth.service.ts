@@ -56,12 +56,13 @@ export class AuthService {
   }
   async resetPassword(input: ResetPasswordInput) {
     const user = await this.usersService.findOneByResetToken(input.token);
+
     if (input.password !== input.confirmNewPassword) {
       throw new Error('New password and confirmation do not match.');
     }
 
     if (!user) {
-      throw new HttpException('Password reset token expired', HttpStatus.BAD_REQUEST);
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
     }
     if (!user?.resetTokenExpiry || user?.resetTokenExpiry < new Date()) {
       throw new HttpException('Password reset token expired', HttpStatus.BAD_REQUEST);
