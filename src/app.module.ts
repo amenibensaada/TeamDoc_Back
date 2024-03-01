@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { FolderModule } from './folder/folder.module';
 import { DocumentModule } from './document/document.module';
+import { ContentModule } from './content/content.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { DocumentModule } from './document/document.module';
       envFilePath: ['.env']
     }),
     FolderModule,
-    DocumentModule
+    DocumentModule,
+    ContentModule
   ],
   controllers: [AppController],
   providers: [AppService]
