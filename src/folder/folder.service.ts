@@ -4,6 +4,8 @@ import { FolderRepository } from './folder.repository';
 
 @Injectable()
 export class FolderService {
+ 
+  
   constructor(private folderRepositroy: FolderRepository) {}
 
   async findAll() {
@@ -25,4 +27,20 @@ export class FolderService {
   async remove(id: string) {
     return this.folderRepositroy.remove(id);
   }
+
+  async searchByName(Name : string){
+    return this.folderRepositroy.search(Name);
+
+  }
+
+ // folder.service.ts
+
+async filter(order: 'asc' | 'desc'): Promise<Folder[]> {
+  return this.folderRepositroy.findAllSortedByName(order);
+}
+
+
+
+
+  
 }

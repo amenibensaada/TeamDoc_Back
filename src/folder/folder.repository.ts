@@ -34,4 +34,18 @@ export class FolderRepository {
   async remove(id: string): Promise<Folder> {
     return this.folderModel.findByIdAndDelete(id).exec();
   }
+  async search(Name: string): Promise<Folder> {
+    return this.folderModel.findOne({ Name }).exec();
+  }
+
+
+// folder.repository.ts
+
+async findAllSortedByName(order: 'asc' | 'desc'): Promise<Folder[]> {
+  const sort = order === 'asc' ? 1 : -1;
+  return this.folderModel.find().sort({ Name: sort }).exec();
+}
+
+
+
 }
