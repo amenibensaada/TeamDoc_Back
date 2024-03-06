@@ -39,8 +39,8 @@ export class FolderController {
   async searchByName(@Param('Name') Name: string): Promise<Folder> {
     return this.folderService.searchByName(Name);
   }
-  @Get('sorted')
-  async findAllSortedByName(@Query('order') order: 'asc' | 'desc'): Promise<Folder[]> {
-    return this.folderService.filter(order);
-  }
+  // @Get('sorted')
+  // async findAllSortedByName(@Query('order') order: 'asc' | 'desc'): Promise<Folder[]> {
+  //   return this.folderService.filter(order);
+  // }
 }

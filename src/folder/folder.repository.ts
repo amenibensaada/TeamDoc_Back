@@ -34,17 +34,24 @@ export class FolderRepository {
   async remove(id: string): Promise<Folder> {
     return this.folderModel.findByIdAndDelete(id).exec();
   }
-  async search(Name: string): Promise<Folder> {
-    return this.folderModel.findOne({ Name }).exec();
+  async searchByName(name: string): Promise<Folder | null> {
+    try {
+      const folder = await this.folderModel.findOne({ Name: name });
+      return folder;
+    } catch (error) {
+      // Handle error appropriately, e.g., throw a custom exception
+      console.error('Error searching folders:', error);
+      return null;
+    }
   }
 
 
 // folder.repository.ts
 
-async findAllSortedByName(order: 'asc' | 'desc'): Promise<Folder[]> {
-  const sort = order === 'asc' ? 1 : -1;
-  return this.folderModel.find().sort({ Name: sort }).exec();
-}
+// async findAllSortedByName(order: 'asc' | 'desc'): Promise<Folder[]> {
+//   const sort = order === 'asc' ? 1 : -1;
+//   return this.folderModel.find().sort({ Name: sort }).exec();
+// }
 
 
 

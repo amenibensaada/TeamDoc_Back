@@ -29,15 +29,15 @@ export class FolderService {
   }
 
   async searchByName(Name : string){
-    return this.folderRepositroy.search(Name);
+    return this.folderRepositroy.searchByName(Name);
 
   }
 
  // folder.service.ts
 
-async filter(order: 'asc' | 'desc'): Promise<Folder[]> {
-  return this.folderRepositroy.findAllSortedByName(order);
-}
+// async filter(order: 'asc' | 'desc'): Promise<Folder[]> {
+//   return this.folderRepositroy.findAllSortedByName(order);
+// }
 
 
 

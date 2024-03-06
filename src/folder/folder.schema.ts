@@ -6,6 +6,8 @@ export type FolerDocument = Folder & Document;
 
 @Schema()
 export class Folder {
+  
+
   @Prop({ unique: true, required: true })
   Name: string;
   @Prop({ type: Date, default: Date.now })
