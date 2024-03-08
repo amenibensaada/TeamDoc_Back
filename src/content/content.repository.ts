@@ -13,10 +13,14 @@ export class ContentRepository {
     const savedContent = await createContent.save();
     return savedContent;
   }
-  async findOne(filter = {}, options = {}): Promise<Content> {
-    const defaultOptions = { sort: { date: 1 } };
-    const mergedOptions = { ...defaultOptions, ...options };
+  async findLast(id: string): Promise<Content> {
+    const filter = { documentId: id };
+    const defaultOptions = { sort: { creationDate: -1 } };
+    return this.contentModel.findOne(filter, null, defaultOptions).exec();
+  }
 
-    return this.contentModel.findOne(filter, null, mergedOptions).exec();
+  async findAll() {
+    const contents = await this.contentModel.find().exec();
+    return contents;
   }
 }

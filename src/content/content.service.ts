@@ -10,8 +10,12 @@ export class ContentService {
   async createContent(createContent: createContentDTO): Promise<Content> {
     return this.contentRepository.create(createContent);
   }
-  async getLastContent(): Promise<Content> {
-    const lastContent = await this.contentRepository.findOne();
+  async getLastContent(id: string): Promise<Content> {
+    const lastContent = await this.contentRepository.findLast(id);
     return lastContent;
+  }
+  async getAllContentst() {
+    const contents = await this.contentRepository.findAll();
+    return contents;
   }
 }

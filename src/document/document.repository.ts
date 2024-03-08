@@ -4,19 +4,28 @@ import { Model } from 'mongoose';
 import { Documents } from './document.schema';
 import { createDocumentsDTOlayer } from './dto/create-document.dto';
 import { Folder } from 'src/folder/folder.schema';
+import { Content } from 'src/content/content.schema';
 
 @Injectable()
 export class DocumentsRepository {
   constructor(
     @InjectModel(Documents.name) private DocumentsModel: Model<Documents>,
-    @InjectModel(Folder.name) private FolderModel: Model<Folder>
+    @InjectModel(Folder.name) private FolderModel: Model<Folder>,
+    @InjectModel(Content.name) private ContentModel: Model<Content>
   ) {}
 
   //Simple Create of documents
   async create(documentsvalidationlayer: createDocumentsDTOlayer): Promise<Documents> {
     const createDocuments = new this.DocumentsModel(documentsvalidationlayer);
+
     const savedDocuments = await createDocuments.save();
-    // const folderArray: Folder[] = [savedFolder];
+    await this.ContentModel.create({
+      documentId: savedDocuments._id,
+      content:
+        '{"time":1709913974033,"blocks":[{"id":"QGDNsHbom1","type":"header","data":{"text":"This is my awesome editor!","level":1}}],"version":"2.29.0"}',
+      creationDate: new Date()
+    });
+
     return savedDocuments;
   }
 

@@ -22,8 +22,8 @@ const Documentsvalidationlayer = z.object({
       { message: 'Update date must be later than creation date' }
     ),
 
-  folderId: z.string(),
-  folderName: z.string()
+  folderId: z.string().optional(),
+  folderName: z.string().optional()
 });
 
 export class createDocumentsDTOlayer extends createZodDto(Documentsvalidationlayer) {}
