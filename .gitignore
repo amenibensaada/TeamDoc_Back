@@ -41,3 +41,5 @@ lerna-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+# Firebase Admin SDK 
+teamdoc-25126-firebase-adminsdk-dhvte-fbede5b0f5.json

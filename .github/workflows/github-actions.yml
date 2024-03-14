@@ -29,3 +29,11 @@ jobs:
 
       # - name: Test
       #   run: npm run test
+
+      - name: Build docker image
+        run: docker build -t amenibensaada/doc-managment-backend .
+
+      - name: Log in to DockerHub
+        run: docker login -u amenibensaada -p "${{ secrets.DOCKERHUB_TOKEN }}"
+      - name: Push Docker image to DockerHub
+        run: docker push amenibensaada/doc-managment-backend
