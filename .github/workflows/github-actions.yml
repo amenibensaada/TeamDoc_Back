@@ -31,9 +31,9 @@ jobs:
       #   run: npm run test
       - name: Push Docker image
         run: |
-          echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
+          echo $DOCKER_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
           docker build -t amenibensaada/teamdocback .
           docker push amenibensaada/teamdocback
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
