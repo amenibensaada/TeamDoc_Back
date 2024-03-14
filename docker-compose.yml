@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ../../frontEnd/doc-managment-front
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - mynetwork
+
+  backend:
+    build: ./
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: "mongodb://mongodb:27017/docManagment"
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
