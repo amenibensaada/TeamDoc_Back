@@ -34,7 +34,7 @@ jobs:
         run: docker build -t amenibensaada/doc-managment-backend .
 
       - name: Log in to DockerHub
-        run: echo "$DOCKERHUB_TOKEN" | docker login -u amenibensaada --password-stdin
+        run: echo ${{ env.DOCKERHUB_TOKEN}} | docker login -u amenibensaada --password-stdin
 
       - name: Push Docker image to DockerHub
         run: docker push amenibensaada/doc-managment-backend
