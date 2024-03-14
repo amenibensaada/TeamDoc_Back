@@ -38,5 +38,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: push docker image to dockerHub
         run: docker push amenibensaada/doc-managment-backend
