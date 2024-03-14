@@ -12,7 +12,8 @@ import { ContentModule } from './content/content.module';
 @Module({
   imports: [
     UsersModule,
-    MongooseModule.forRoot('mongodb://127.0.0.1:27017/docManagment'),
+    // MongooseModule.forRoot('mongodb://127.0.0.1:27017/docManagment'),
+    MongooseModule.forRoot('mongodb://mongodb:27017/docManagment'),
     AuthModule,
     ConfigModule.forRoot({
       envFilePath: ['.env']
