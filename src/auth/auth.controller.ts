@@ -34,4 +34,9 @@ export class AuthController {
   async forgetPassword(@Body() input: EmailUserInput) {
     return this.authService.forgetPassword(input.email);
   }
+
+  @Post('loginWithGoogle')
+  async loginWithGoogle(@Body() body: { googleUuid: string }) {
+    return this.authService.loginWithGoogle(body.googleUuid);
+  }
 }
