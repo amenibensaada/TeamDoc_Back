@@ -21,7 +21,8 @@ export class Documents {
   @Prop({
     type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Folder' }]
   })
-  Folders: Folder[];
+  folders: Folder;
+  
   @Prop({
     type: [{ type: MongooseSchema.Types.ObjectId, ref: 'User' }]
   })

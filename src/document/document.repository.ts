@@ -12,9 +12,38 @@ export class DocumentsRepository {
     @InjectModel(Folder.name) private FolderModel: Model<Folder>
   ) {}
 
+   // find avec auth 
+
+  async findAll(userId: string): Promise<Documents[]> {
+    return this.DocumentsModel.find({ user: userId }).exec();
+  }
+
+  async findOne(id: string, userId: string): Promise<Documents> {
+    return this.DocumentsModel.findById({ _id: id, user: userId }).exec();
+  }
+
+  async update(id: string, updateFolderDto: any, userId: string) {
+    return this.DocumentsModel.findByIdAndUpdate(
+      id,
+      { updateFolderDto, user: userId },
+      {
+        new: true
+      }
+    ).exec();
+  }
+
+  async remove(id: string, userId: string): Promise<Documents> {
+    return this.DocumentsModel.findByIdAndDelete({ _id: id, user: userId }).exec();
+  }
+
   //Simple Create of documents
-  async create(documentsvalidationlayer: createDocumentsDTOlayer): Promise<Documents> {
-    const createDocuments = new this.DocumentsModel(documentsvalidationlayer);
+  async create(
+    documentsvalidationlayer: createDocumentsDTOlayer,
+    userId: string
+  ): Promise<Documents> {
+    const data = Object.assign(documentsvalidationlayer, { user: userId });
+
+    const createDocuments = new this.DocumentsModel(data);
     const savedDocuments = await createDocuments.save();
     // const folderArray: Folder[] = [savedFolder];
     return savedDocuments;
@@ -22,56 +51,49 @@ export class DocumentsRepository {
   
   async createavecaffectation(
     folderId: string,
-    documentsvalidationlayer: createDocumentsDTOlayer
+    documentsvalidationlayer: createDocumentsDTOlayer,
+    userId: string
   ): Promise<Documents> {
     const findFolder = await this.FolderModel.findById(folderId);
     if (!findFolder) return null;
-    const createDocuments = new this.DocumentsModel(documentsvalidationlayer);
+    const data = Object.assign(documentsvalidationlayer, { user: userId });
+
+    const createDocuments = new this.DocumentsModel(data);
     const savedDocuments = await createDocuments.save();
     await findFolder.updateOne({
       $push: {
         documents: savedDocuments.id
       }
     });
-    // const folderArray: Folder[] = [savedFolder];
     return savedDocuments;
   }
 
-  async createDocandfolder(
-    documentsValidationLayer: createDocumentsDTOlayer,
-    folderName: string
-  ): Promise<Documents> {
+ 
 
-    const findFolder = await this.FolderModel.create({ Name: folderName });
-    const savedDocuments = await this.DocumentsModel.create({
-      ...documentsValidationLayer,
-      folder: findFolder
-    });
-    await this.FolderModel.findByIdAndUpdate(findFolder._id, {
-      $push: {
-        documents: savedDocuments
-      }
-    });
 
-    return savedDocuments;
-  }
-  async findAll(): Promise<Documents[]> {
-    return this.DocumentsModel.find().exec();
-  }
 
-  async findOne(id: string): Promise<Documents> {
-    return this.DocumentsModel.findById(id).exec();
-  }
 
-  async update(id: string, updateFolderDto: any) {
-    return this.DocumentsModel.findByIdAndUpdate(id, updateFolderDto, {
-      new: true
-    }).exec();
-  }
+ 
 
-  async remove(id: string): Promise<Documents> {
-    return this.DocumentsModel.findByIdAndDelete(id).exec();
-  }
+ 
+ // async createDocandfolder(
+  //   documentsValidationLayer: createDocumentsDTOlayer,
+  //   folderName: string
+  // ): Promise<Documents> {
+
+  //   const findFolder = await this.FolderModel.create({ Name: folderName });
+  //   const savedDocuments = await this.DocumentsModel.create({
+  //     ...documentsValidationLayer,
+  //     folder: findFolder
+  //   });
+  //   await this.FolderModel.findByIdAndUpdate(findFolder._id, {
+  //     $push: {
+  //       documents: savedDocuments
+  //     }
+  //   });
+
+  //   return savedDocuments;
+  // }
 
  
 }

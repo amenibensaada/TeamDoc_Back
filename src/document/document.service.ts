@@ -6,35 +6,40 @@ import { createDocumentsDTOlayer } from './dto/create-document.dto';
 @Injectable()
 export class DocumentService {
   constructor(private DocRepositroy: DocumentsRepository) {}
-
-  async findAll() {
-    return this.DocRepositroy.findAll();
+  async findAll(userId: string) {
+    return this.DocRepositroy.findAll(userId);
   }
 
-  async findOne(id: string) {
-    return this.DocRepositroy.findOne(id);
+  async findOne(id: string, userId: string) {
+    return this.DocRepositroy.findOne(id, userId);
+  }
+  async update(id: string, createDocValidator: any, userId: string) {
+    return this.DocRepositroy.update(id, createDocValidator, userId);
   }
 
-  async create(createDocValidator: any): Promise<Documents> {
-    return this.DocRepositroy.create(createDocValidator);
+  async remove(id: string, userId: string) {
+    return this.DocRepositroy.remove(id, userId);
+  }
+
+  async create(createDocValidator: any, userId: string): Promise<Documents> {
+    return this.DocRepositroy.create(createDocValidator, userId);
   }
 
   async createavecaffectation(
     folderId: string,
-    createDocValidator: createDocumentsDTOlayer
+    createDocValidator: createDocumentsDTOlayer,
+    userId: string
   ): Promise<Documents> {
-    return this.DocRepositroy.createavecaffectation(folderId, createDocValidator);
+    return this.DocRepositroy.createavecaffectation(folderId, createDocValidator, userId);
   }
 
-  async createDocandfolder(createDocValidator: any, foldername: string): Promise<Documents> {
-    return this.DocRepositroy.createDocandfolder(createDocValidator, foldername);
-  }
 
-  async update(id: string, createDocValidator: any) {
-    return this.DocRepositroy.update(id, createDocValidator);
-  }
+ 
 
-  async remove(id: string) {
-    return this.DocRepositroy.remove(id);
-  }
+
+
+  // async createDocandfolder(createDocValidator: any, foldername: string): Promise<Documents> {
+  //   return this.DocRepositroy.createDocandfolder(createDocValidator, foldername);
+  // }
+
 }
