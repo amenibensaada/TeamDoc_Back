@@ -23,9 +23,10 @@ export class DocumentsRepository {
   }
 
   async update(id: string, updateFolderDto: any, userId: string) {
+    const currentDate = new Date();
     return this.DocumentsModel.findByIdAndUpdate(
       id,
-      { updateFolderDto, user: userId },
+      { ...updateFolderDto, user: userId, updatedDate: currentDate },
       {
         new: true
       }
@@ -56,7 +57,7 @@ export class DocumentsRepository {
   ): Promise<Documents> {
     const findFolder = await this.FolderModel.findById(folderId);
     if (!findFolder) return null;
-    const data = Object.assign(documentsvalidationlayer, { user: userId });
+    const data = Object.assign(documentsvalidationlayer, { user: userId, folders: folderId });
 
     const createDocuments = new this.DocumentsModel(data);
     const savedDocuments = await createDocuments.save();

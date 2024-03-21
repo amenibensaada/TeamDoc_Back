@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Folder } from 'src/folder/folder.schema';
-import { User } from 'src/users/users.schema';
+import { Folder } from '../folder/folder.schema';
+import { User } from '../users/users.schema';
 import { boolean } from 'zod';
 
 export type DocumentsDocument = Documents & Document;
@@ -19,16 +19,14 @@ export class Documents {
   @Prop({ type: [String], default: [] })
   contentType: string[];
 
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' }) 
+  user: User; 
   @Prop({
     type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Folder' }]
   })
-  folders: Folder;
+  folders: Folder[];
 
-  @Prop({
-    type: [{ type: MongooseSchema.Types.ObjectId, ref: 'User' }]
-  })
-
-  User: User;
+ 
 
   @Prop({ type: boolean, default: false })
   deleted: boolean;
