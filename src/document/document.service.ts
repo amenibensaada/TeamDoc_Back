@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Documents } from './document.schema';
 import { DocumentsRepository } from './document.repository';
+import { createDocumentsDTOlayer } from './dto/create-document.dto';
 
 @Injectable()
 export class DocumentService {
@@ -18,8 +19,11 @@ export class DocumentService {
     return this.DocRepositroy.create(createDocValidator);
   }
 
-  async createavecaffectation(createDocValidator: any): Promise<Documents> {
-    return this.DocRepositroy.createavecaffectation(createDocValidator);
+  async createavecaffectation(
+    folderId: string,
+    createDocValidator: createDocumentsDTOlayer
+  ): Promise<Documents> {
+    return this.DocRepositroy.createavecaffectation(folderId, createDocValidator);
   }
 
   async createDocandfolder(createDocValidator: any, foldername: string): Promise<Documents> {

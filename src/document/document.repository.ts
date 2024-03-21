@@ -19,11 +19,11 @@ export class DocumentsRepository {
     // const folderArray: Folder[] = [savedFolder];
     return savedDocuments;
   }
-
-  async createavecaffectation({
-    folderId,
-    ...documentsvalidationlayer
-  }: createDocumentsDTOlayer): Promise<Documents> {
+  
+  async createavecaffectation(
+    folderId: string,
+    documentsvalidationlayer: createDocumentsDTOlayer
+  ): Promise<Documents> {
     const findFolder = await this.FolderModel.findById(folderId);
     if (!findFolder) return null;
     const createDocuments = new this.DocumentsModel(documentsvalidationlayer);
@@ -37,6 +37,24 @@ export class DocumentsRepository {
     return savedDocuments;
   }
 
+  async createDocandfolder(
+    documentsValidationLayer: createDocumentsDTOlayer,
+    folderName: string
+  ): Promise<Documents> {
+
+    const findFolder = await this.FolderModel.create({ Name: folderName });
+    const savedDocuments = await this.DocumentsModel.create({
+      ...documentsValidationLayer,
+      folder: findFolder
+    });
+    await this.FolderModel.findByIdAndUpdate(findFolder._id, {
+      $push: {
+        documents: savedDocuments
+      }
+    });
+
+    return savedDocuments;
+  }
   async findAll(): Promise<Documents[]> {
     return this.DocumentsModel.find().exec();
   }
@@ -55,28 +73,5 @@ export class DocumentsRepository {
     return this.DocumentsModel.findByIdAndDelete(id).exec();
   }
 
-  async createDocandfolder(
-    { folderId, ...documentsValidationLayer }: createDocumentsDTOlayer,
-    folderName: string
-  ): Promise<Documents> {
-    let savedDocuments;
-    let findFolder;
-    if (folderId) {
-      findFolder = await this.FolderModel.findById(folderId);
-    }
-    if (!findFolder && folderName) {
-      findFolder = await this.FolderModel.create({ Name: folderName });
-      savedDocuments = await this.DocumentsModel.create({
-        ...documentsValidationLayer,
-        folderId: findFolder._id
-      });
-      await this.FolderModel.findByIdAndUpdate(findFolder._id, {
-        $push: {
-          documents: savedDocuments._id
-        }
-      });
-
-      return savedDocuments;
-    }
-  }
+ 
 }

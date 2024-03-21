@@ -1,28 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { Folder } from './folder.schema';
 import { FolderRepository } from './folder.repository';
+import { createFolderDTOlayer } from './dto/create-folder.dto';
+import { User } from 'src/users/users.schema';
 
 @Injectable()
 export class FolderService {
   constructor(private folderRepositroy: FolderRepository) {}
 
-  async findAll() {
-    return this.folderRepositroy.findAll();
+  async findAll(userId: string) {
+    return this.folderRepositroy.findAll(userId);
   }
 
-  async findOne(id: string) {
-    return this.folderRepositroy.findOne(id);
+  async findOne(id: string, userId: string) {
+    return this.folderRepositroy.findOne(id, userId);
   }
 
-  async create(createFolderDto: any): Promise<Folder> {
-    return this.folderRepositroy.create(createFolderDto);
+  async create(createFolderDto: createFolderDTOlayer, user: string): Promise<createFolderDTOlayer> {
+    return this.folderRepositroy.create(createFolderDto, user);
+  }
+  
+
+  async update(id: string, userId: string, updateFolderDto: any) {
+    return this.folderRepositroy.update(id, userId, updateFolderDto);
   }
 
-  async update(id: string, updateFolderDto: any) {
-    return this.folderRepositroy.update(id, updateFolderDto);
+  async removeonefolder(id: string, userId: string) {
+    return this.folderRepositroy.removeonefolder(id, userId);
   }
-
-  async remove(id: string) {
-    return this.folderRepositroy.remove(id);
+  //remove all 
+  async removeSelected(folderIds: string[]) {
+    return this.folderRepositroy.removeSelected(folderIds);
   }
 }

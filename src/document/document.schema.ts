@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Folder } from 'src/folder/folder.schema';
+import { User } from 'src/users/users.schema';
 
 export type DocumentsDocument = Documents & Document;
 
@@ -15,8 +17,16 @@ export class Documents {
 
   @Prop({ type: [String], default: [] })
   contentType: string[];
-  @Prop({ required: false })
-  folderId?: string;
+
+  @Prop({
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Folder' }]
+  })
+  Folders: Folder[];
+  @Prop({
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: 'User' }]
+  })
+
+  User: User;
 }
 
 export const DocumentsSchema = SchemaFactory.createForClass(Documents);
