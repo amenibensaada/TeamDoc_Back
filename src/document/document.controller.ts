@@ -24,7 +24,6 @@ export class DocumentController {
   @Get('getalldocuments')
   async findAll(@Req() req): Promise<Documents[]> {
     const userId = req.user.id;
-
     return this.DocService.findAll(userId);
   }
 
