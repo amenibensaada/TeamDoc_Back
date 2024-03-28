@@ -1,5 +1,5 @@
 import { createZodDto } from 'nestjs-zod';
-import * as z from 'zod';
+import { z } from 'nestjs-zod/z';
 
 const Documentsvalidationlayer = z.object({
   Title: z
@@ -23,7 +23,12 @@ const Documentsvalidationlayer = z.object({
     ),
 
   folderId: z.string().optional(),
-  folderName: z.string().optional()
+  folderName: z.string().optional(),
+  contentType: z
+    .array(z.string())
+    .min(1, { message: 'At least one content type must be specified' })
+    .max(5, { message: 'Maximum of 5 content types allowed' })
+    .optional()
 });
 
 export class createDocumentsDTOlayer extends createZodDto(Documentsvalidationlayer) {}
