@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from 'uuid';
 import mailgun from 'mailgun.js';
 import { ResetPasswordInput } from 'src/users/dto/reset-password.input';
 import * as FormData from 'form-data';
+import { getAuth } from 'firebase-admin/auth';
+import { app } from 'src/firebase/config';
 
 @Injectable()
 export class AuthService {
@@ -96,5 +98,22 @@ export class AuthService {
       resetTokenExpiry
     });
     return 'Password reset email sent';
+  }
+  async loginWithGoogle(googleUuid: string) {
+    const user = await getAuth(app).getUser(googleUuid);
+    const newUser = await this.usersService.findOneByEmailWithPassword(user.email || '');
+    if (!newUser) {
+      throw new Error('You don t have an account');
+    }
+    const token = this._createToken({
+      id: newUser._id,
+      email: newUser.email,
+      role: newUser.accountType
+    });
+
+    return {
+      token,
+      data: newUser
+    };
   }
 }
