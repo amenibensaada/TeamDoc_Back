@@ -1,36 +1,93 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { Folder } from './folder.schema';
-import { createFolderDTOlayer } from './dto/create-folder.dto';
-import { FolderService } from './folder.service';
+  import { Controller, Get, Post, Body, Patch, Param, Delete , Query ,Req,  UseGuards} from '@nestjs/common';
+  import { Folder } from './folder.schema';
+  import { createFolderDTOlayer } from './dto/create-folder.dto';
+  import { FolderService } from './folder.service';
+  import { AuthGuard } from '@nestjs/passport/dist/auth.guard';
 
-@Controller('folder')
-export class FolderController {
-  constructor(private readonly folderService: FolderService) {}
-  @Get()
-  async findAll(): Promise<Folder[]> {
-    return this.folderService.findAll();
-  }
+ 
+  @Controller('folder')
+  @UseGuards(AuthGuard('jwt'))
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Folder> {
-    return this.folderService.findOne(id);
-  }
-
-  @Post()
-  async create(@Body() createFolderDto: createFolderDTOlayer): Promise<Folder> {
-    return this.folderService.create(createFolderDto);
-  }
-
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateFolderDto: createFolderDTOlayer
-  ): Promise<Folder> {
-    return this.folderService.update(id, updateFolderDto);
-  }
-
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<Folder> {
-    return this.folderService.remove(id);
-  }
+  export class FolderController {
+    constructor(private readonly folderService: FolderService) {}
+    // @Get()
+    // async findAll(): Promise<Folder[]> {
+    //   return this.folderService.findAll();
+    // }
+    @Get('search')
+async search(
+  @Req() req,
+  @Query('keyword') keyword: string,
+  @Query('page') page: number,
+  @Query('perPage') perPage: number,
+): Promise<Folder[]> {
+  const userId = req.user.id;
+  return this.folderService.search(keyword, userId, page, perPage);
 }
+
+    
+    @Get('getAllFolder')
+    async findAll(
+      @Req() req,
+      @Query('page') page: number = 1,
+      @Query('perPage') perPage: number = 3 
+    ): Promise<Folder[]> {
+      const userId = req.user.id;
+      return this.folderService.findAll(userId, page, perPage);
+    }
+    // @Get()
+    // async findAll(
+    //   @Query('page') page: number = 1,
+    //   @Query('perPage') perPage: number = 3
+    // ): Promise<Folder[]> {
+    //   return this.folderService.findAll(page, perPage);
+    // }
+    
+    // @Get(':id')
+    // async findOne(@Param('id') id: string): Promise<Folder> {
+    //   return this.folderService.findOne(id);
+    // }
+    
+
+    // @Post()
+    // async create(@Body() createFolderDto: createFolderDTOlayer): Promise<Folder> {
+    //   return this.folderService.create(createFolderDto);
+    // }
+    @Post('/AddFolder')
+  async create(
+    @Body() createFolderDto: createFolderDTOlayer,
+    @Req() req
+  ): Promise<createFolderDTOlayer> {
+    console.log(req.user.id);
+    return this.folderService.create(createFolderDto, req.user.id);
+
+    
+  }
+
+    @Patch(':id')
+    async update(
+      @Param('id') id: string,
+      @Body() updateFolderDto: createFolderDTOlayer
+    ): Promise<Folder> {
+      console.log('Updating folder:', id, updateFolderDto);
+
+      return this.folderService.update(id, updateFolderDto);
+    }
+
+    @Delete(':id')
+    async remove(@Param('id') id: string): Promise<Folder> {
+      return this.folderService.remove(id);
+    }
+  
+    @Get('getbyidfolder/:id')
+    async findOne(@Param('id') id: string, @Req() req): Promise<Folder> {
+      const userId = req.user.id;
+      console.log(userId);
+      return this.folderService.findOne(id, userId);
+    }
+    
+
+
+}
+  
+  
