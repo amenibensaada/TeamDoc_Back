@@ -10,10 +10,7 @@
 
   export class FolderController {
     constructor(private readonly folderService: FolderService) {}
-    // @Get()
-    // async findAll(): Promise<Folder[]> {
-    //   return this.folderService.findAll();
-    // }
+    
     @Get('search')
 async search(
   @Req() req,
@@ -35,24 +32,7 @@ async search(
       const userId = req.user.id;
       return this.folderService.findAll(userId, page, perPage);
     }
-    // @Get()
-    // async findAll(
-    //   @Query('page') page: number = 1,
-    //   @Query('perPage') perPage: number = 3
-    // ): Promise<Folder[]> {
-    //   return this.folderService.findAll(page, perPage);
-    // }
     
-    // @Get(':id')
-    // async findOne(@Param('id') id: string): Promise<Folder> {
-    //   return this.folderService.findOne(id);
-    // }
-    
-
-    // @Post()
-    // async create(@Body() createFolderDto: createFolderDTOlayer): Promise<Folder> {
-    //   return this.folderService.create(createFolderDto);
-    // }
     @Post('/AddFolder')
   async create(
     @Body() createFolderDto: createFolderDTOlayer,
