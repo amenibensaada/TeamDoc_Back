@@ -1,10 +1,12 @@
+
 version: '3.8'
 
 services:
   frontend:
     build: ../../frontEnd/doc-managment-front
+
     ports:
-      - "80:80"
+      - '80:80'
     depends_on:
       - backend
     networks:
@@ -13,10 +15,10 @@ services:
   backend:
     build: ./
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
-      DATABASE_URL: "mongodb://mongodb:27017/docManagment"
-      GOOGLE_APPLICATION_CREDENTIALS: ""
+      DATABASE_URL: 'mongodb://mongodb:27017/docManagment'
+      GOOGLE_APPLICATION_CREDENTIALS: '/usr/src/app/teamdoc-25126-firebase-adminsdk-dhvte-bf5f6c4c26.json'
     depends_on:
       - mongodb
     networks:
@@ -25,7 +27,7 @@ services:
   mongodb:
     image: mongo
     ports:
-      - "27017:27017"
+      - '27017:27017'
     networks:
       - mynetwork
 
