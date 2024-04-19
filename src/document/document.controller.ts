@@ -1,4 +1,3 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { Documents } from './document.schema';
 import { createDocumentsDTOlayer } from './dto/create-document.dto';
 import { DocumentService } from './document.service';
@@ -35,7 +34,7 @@ export class DocumentController {
     return this.DocService.createDocandfolder(Documentsvalidator, folderName);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updatedocuDto: createDocumentsDTOlayer
