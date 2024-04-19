@@ -1,6 +1,7 @@
 import { Documents } from './document.schema';
 import { createDocumentsDTOlayer } from './dto/create-document.dto';
 import { DocumentService } from './document.service';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 
 @Controller('Document')
 export class DocumentController {
