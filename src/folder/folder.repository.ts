@@ -7,9 +7,11 @@ import { createFolderDTOlayer } from './dto/create-folder.dto';
 @Injectable()
 export class FolderRepository {
   folderRepositroy: any;
-  constructor(@InjectModel(Folder.name) private folderModel: Model<Folder>) {}
+  constructor(
+    @InjectModel(Folder.name) private folderModel: Model<Folder>,
+    @InjectModel(Folder.name) private documentModel: Model<Document>
+  ) {}
 
- 
   async create(newfolder: createFolderDTOlayer, userId: string): Promise<createFolderDTOlayer> {
     const data = Object.assign(newfolder, { user: userId });
     const createFolder = new this.folderModel(data);
@@ -17,20 +19,17 @@ export class FolderRepository {
     return savedFolder;
   }
 
-async search(keyword: string, userId: string, skip: number, perPage: number): Promise<Folder[]> {
-  
-  const regex = new RegExp(keyword, 'i');
-  return this.folderModel.find({ Name: regex, user: userId }).skip(skip).limit(perPage).exec();
-}
+  async search(keyword: string, userId: string, skip: number, perPage: number): Promise<Folder[]> {
+    const regex = new RegExp(keyword, 'i');
+    return this.folderModel.find({ Name: regex, user: userId }).skip(skip).limit(perPage).exec();
+  }
 
-
-  async findAll(userId: string,skip: number, take: number): Promise<Folder[]> {
-         console.log(`Fetching folders with skip: ${skip} and take: ${take}`);
+  async findAll(userId: string, skip: number, take: number): Promise<Folder[]> {
+    console.log(`Fetching folders with skip: ${skip} and take: ${take}`);
 
     return this.folderModel.find({ user: userId }).skip(skip).limit(take).exec();
   }
 
-  
   async findOne(id: string, userId: string): Promise<Folder> {
     return this.folderModel.findById({ _id: id, user: userId }).exec();
   }
@@ -46,4 +45,25 @@ async search(keyword: string, userId: string, skip: number, perPage: number): Pr
   async remove(id: string): Promise<Folder> {
     return this.folderModel.findByIdAndDelete(id).exec();
   }
+  // async removeSelected(folderIds: string[]): Promise<Folder[]> {
+  //   try {
+  //     // Validate folderIds
+  //     folderIds.forEach((id) => {
+  //       if (!mongoose.Types.ObjectId.isValid(id)) {
+  //         throw new Error(`Invalid ObjectId: ${id}`);
+  //       }
+  //     });
+
+  //     const foldersToRemove = await this.folderModel.find({
+  //       _id: { $in: folderIds.map((id) => new mongoose.Types.ObjectId(id)) }
+  //     });
+
+  //     await this.folderModel.deleteMany({
+  //       _id: { $in: folderIds.map((id) => new mongoose.Types.ObjectId(id)) }
+  //     });
+  //     return foldersToRemove;
+  //   } catch (error) {
+  //     throw new Error(`Error removing documents: ${error.message}`);
+  //   }
+  // }
 }

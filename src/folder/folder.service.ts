@@ -34,4 +34,8 @@ export class FolderService {
   async remove(id: string) {
     return this.folderRepository.remove(id);
   }
+  //remove all
+  // async removeSelected(folderIds: string[]) {
+  //   return this.folderRepository.removeSelected(folderIds);
+  // }
 }

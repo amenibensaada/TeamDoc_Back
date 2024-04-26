@@ -34,23 +34,33 @@ export class DocumentsRepository {
   ): Promise<Documents> {
     const createDocuments = new this.DocumentsModel({
       ...documentsValidationLayer,
-      folderId: folderId 
+      folderId: folderId
     });
-  
+    const folder = await this.FolderModel.findById(folderId);
+
+    if (!folder) {
+      throw new Error('Folder not found');
+    }
+
+   
+
     const savedDocuments = await createDocuments.save();
-  
+
     await this.ContentModel.create({
       documentId: savedDocuments._id,
       content:
         '{"time":1709913974033,"blocks":[{"id":"QGDNsHbom1","type":"header","data":{"text":"This is my awesome editor!","level":1}}],"version":"2.29.0"}',
       creationDate: new Date()
     });
-  
+    await folder.updateOne({
+      $push: {
+        documents: savedDocuments.id
+      }
+    });
+    await folder.save();
     return savedDocuments;
   }
-  
 
- 
   async findAll(): Promise<Documents[]> {
     return this.DocumentsModel.find().exec();
   }
@@ -58,7 +68,7 @@ export class DocumentsRepository {
   async findByFolderId(folderId: string): Promise<Documents[]> {
     return this.DocumentsModel.find({ folderId }).exec();
   }
-  
+
   async findOne(id: string): Promise<Documents> {
     return this.DocumentsModel.findById(id).exec();
   }
@@ -72,6 +82,4 @@ export class DocumentsRepository {
   async remove(id: string): Promise<Documents> {
     return this.DocumentsModel.findByIdAndDelete(id).exec();
   }
-
-  
 }
