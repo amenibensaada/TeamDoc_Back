@@ -60,15 +60,22 @@ async getSharedFolders(@Req() req): Promise<Folder[]> {
 }
 
 
-    @Patch(':id')
-    async update(
-      @Param('id') id: string,
-      @Body() updateFolderDto: createFolderDTOlayer
-    ): Promise<Folder> {
-      console.log('Updating folder:', id, updateFolderDto);
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateFolderDto: createFolderDTOlayer
+  ): Promise<Folder> {
+    console.log('Updating folder:', id, updateFolderDto);
 
-      return this.folderService.update(id, updateFolderDto);
-    }
+    return this.folderService.update(id, updateFolderDto);
+  }
+
+
+  // @Delete('remove-selected')
+  // async removeSelected(@Body('folderIds') folderIds: string[]): Promise<Folder[]> {
+  //   return await this.folderService.removeSelected(folderIds);
+  // }
+
 
     @Delete(':id')
     async remove(@Param('id') id: string): Promise<Folder> {
@@ -99,5 +106,3 @@ async getSharedFolders(@Req() req): Promise<Folder[]> {
 
 
 }
-  
-  
