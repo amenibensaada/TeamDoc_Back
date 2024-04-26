@@ -60,6 +60,13 @@ export class FolderController {
     return this.folderService.update(id, updateFolderDto);
   }
 
+
+  // @Delete('remove-selected')
+  // async removeSelected(@Body('folderIds') folderIds: string[]): Promise<Folder[]> {
+  //   return await this.folderService.removeSelected(folderIds);
+  // }
+
+
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Folder> {
     return this.folderService.remove(id);
@@ -71,10 +78,4 @@ export class FolderController {
     console.log(userId);
     return this.folderService.findOne(id, userId);
   }
-  // @Delete('remove-selected')
-  // async removeSelected(@Body('folderIds') folderIds: string[]): Promise<Folder[]> {
-  //   return await this.folderService.removeSelected(folderIds);
-  // }
-
-
 }
