@@ -17,7 +17,11 @@ export class Folder {
   @Prop({
     type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Documents' }]
   })
-  documents: Documents[];
+   documents: Documents[];
+   @Prop({
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: 'User' }] // Liste des utilisateurs avec lesquels le dossier est partagé
+  })
+  sharedWith: User[];
 }
 
 export const FolderSchema = SchemaFactory.createForClass(Folder);

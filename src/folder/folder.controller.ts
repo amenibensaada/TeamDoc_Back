@@ -1,4 +1,4 @@
-  import { Controller, Get, Post, Body, Patch, Param, Delete , Query ,Req,  UseGuards} from '@nestjs/common';
+  import { Controller, Get, Post, Body, Patch, Param, Delete , Query ,Req,  UseGuards, NotFoundException} from '@nestjs/common';
   import { Folder } from './folder.schema';
   import { createFolderDTOlayer } from './dto/create-folder.dto';
   import { FolderService } from './folder.service';
@@ -43,6 +43,22 @@ async search(
 
     
   }
+  @Get('shared')
+async getSharedFolders(@Req() req): Promise<Folder[]> {
+  try {
+    const userId = req.user.id;
+    console.log("User ID:", userId); 
+
+   const sharedFolders = await this.folderService.getSharedFoldersForUser(userId);
+    console.log("Shared Folders:", sharedFolders); 
+
+    return sharedFolders;
+  } catch (error) {
+    console.error("Error fetching shared folders:", error.message);
+    throw error;
+  }
+}
+
 
     @Patch(':id')
     async update(
@@ -58,13 +74,27 @@ async search(
     async remove(@Param('id') id: string): Promise<Folder> {
       return this.folderService.remove(id);
     }
-  
+    @Post(':id/share')
+    async shareFolder(@Param('id') id: string, @Body('userIdToShareWith') userIdToShareWith: string) {
+      return this.folderService.shareFolder(id, userIdToShareWith);
+    }
+    
+    
     @Get('getbyidfolder/:id')
     async findOne(@Param('id') id: string, @Req() req): Promise<Folder> {
       const userId = req.user.id;
       console.log(userId);
       return this.folderService.findOne(id, userId);
     }
+
+    @Delete(':folderId/ignore-access/:userIdToIgnore')
+    async ignoreAccess(@Param('folderId') folderId: string, @Param('userIdToIgnore') userIdToIgnore: string) {
+      console.log('Folder ID:', folderId);
+      console.log('User ID to ignore:', userIdToIgnore);
+      return this.folderService.ignoreAccess(folderId, userIdToIgnore);
+    }
+    
+    
     
 
 
