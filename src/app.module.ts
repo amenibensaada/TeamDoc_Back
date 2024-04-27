@@ -8,20 +8,21 @@ import { ConfigModule } from '@nestjs/config';
 import { FolderModule } from './folder/folder.module';
 import { DocumentModule } from './document/document.module';
 import { ContentModule } from './content/content.module';
+import { OpenAiModule } from './open-ai/open-ai.module';
 import { EmailService } from './email/email.service';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     UsersModule,
     MongooseModule.forRoot('mongodb://127.0.0.1:27017/docManagment'),
     // MongooseModule.forRoot('mongodb://mongodb:27017/docManagment'),
     AuthModule,
-    ConfigModule.forRoot({
-      envFilePath: ['.env']
-    }),
+
     FolderModule,
     DocumentModule,
-    ContentModule
+    ContentModule,
+    OpenAiModule
   ],
   controllers: [AppController],
   providers: [AppService, EmailService]
