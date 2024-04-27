@@ -45,6 +45,11 @@ export class UsersService {
   async delete(id: string) {
     return this.userRepository.delete(id);
   }
+  async findById(id: string): Promise<User | null> {
+    return this.userRepository.getOneWithPasswordById(id);
+  }
+  
+
 
   async login({ email, password }: LoginUserDto) {
     const user = await this.userRepository.getOneWithPassword({
@@ -58,7 +63,6 @@ export class UsersService {
     if (!areEqual) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: p, ...rest } = user;
     return rest;
   }
@@ -75,4 +79,5 @@ export class UsersService {
       where: { email }
     });
   }
+  
 }

@@ -52,4 +52,11 @@ export class UserRepository {
     const user = await this.userModel.findOne(params.where).lean().exec();
     return user;
   }
+  async getOneWithPasswordById(id: string): Promise<User | null> {
+    return this.userModel.findById(id).select('+password').lean().exec();
+    
+  }
+  async findById(id: string): Promise<User | null> {
+    return this.userModel.findById(id).exec();
+  }
 }
