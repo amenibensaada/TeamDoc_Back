@@ -21,4 +21,10 @@ export class ContentController {
   async getAllContents() {
     return this.contentService.getAllContentst();
   }
+  @Put('/:id/update-real-time')
+  async updateContentRealTime(@Param('id') id: string, @Body() updateContentDTO: any) {
+    // Supposons que updateContentDTO contient le nouveau contenu à mettre à jour
+    const updatedContent = await this.contentService.updateContentRealTime(id, updateContentDTO.content);
+    return updatedContent;
+}
 }

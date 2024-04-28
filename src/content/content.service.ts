@@ -18,4 +18,11 @@ export class ContentService {
     const contents = await this.contentRepository.findAll();
     return contents;
   }
+  async updateContentRealTime(id: string, updatedContent: string): Promise<Content | undefined> {
+    const updated = await this.contentRepository.updateContentById(id, updatedContent);
+    if (updated) {
+      this.realTimeService.emitContentUpdate(id, updatedContent);
+    }
+    return updated;
+  }
 }

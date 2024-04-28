@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { FolderModule } from './folder/folder.module';
 import { DocumentModule } from './document/document.module';
 import { ContentModule } from './content/content.module';
+import { RealTimeService } from './real-time/real-time.service';
 
 @Module({
   imports: [
@@ -23,6 +24,6 @@ import { ContentModule } from './content/content.module';
     ContentModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, RealTimeService]
 })
 export class AppModule {}
