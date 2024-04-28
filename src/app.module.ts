@@ -9,6 +9,7 @@ import { FolderModule } from './folder/folder.module';
 import { DocumentModule } from './document/document.module';
 import { ContentModule } from './content/content.module';
 import { OpenAiModule } from './open-ai/open-ai.module';
+import { EmailService } from './email/email.service';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { OpenAiModule } from './open-ai/open-ai.module';
     OpenAiModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, EmailService]
 })
 export class AppModule {}

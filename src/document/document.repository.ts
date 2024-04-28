@@ -28,26 +28,45 @@ export class DocumentsRepository {
 
     return savedDocuments;
   }
+  async createWithFolderId(
+    folderId: string,
+    documentsValidationLayer: createDocumentsDTOlayer
+  ): Promise<Documents> {
+    const createDocuments = new this.DocumentsModel({
+      ...documentsValidationLayer,
+      folderId: folderId
+    });
+    const folder = await this.FolderModel.findById(folderId);
 
-  async createavecaffectation({
-    folderId,
-    ...documentsvalidationlayer
-  }: createDocumentsDTOlayer): Promise<Documents> {
-    const findFolder = await this.FolderModel.findById(folderId);
-    if (!findFolder) return null;
-    const createDocuments = new this.DocumentsModel(documentsvalidationlayer);
+    if (!folder) {
+      throw new Error('Folder not found');
+    }
+
+   
+
     const savedDocuments = await createDocuments.save();
-    await findFolder.updateOne({
+
+    await this.ContentModel.create({
+      documentId: savedDocuments._id,
+      content:
+        '{"time":1709913974033,"blocks":[{"id":"QGDNsHbom1","type":"header","data":{"text":"This is my awesome editor!","level":1}}],"version":"2.29.0"}',
+      creationDate: new Date()
+    });
+    await folder.updateOne({
       $push: {
         documents: savedDocuments.id
       }
     });
-    // const folderArray: Folder[] = [savedFolder];
+    await folder.save();
     return savedDocuments;
   }
 
   async findAll(): Promise<Documents[]> {
     return this.DocumentsModel.find().exec();
+  }
+  // findAlldocumentsbyfolder
+  async findByFolderId(folderId: string): Promise<Documents[]> {
+    return this.DocumentsModel.find({ folderId }).exec();
   }
 
   async findOne(id: string): Promise<Documents> {
@@ -62,30 +81,5 @@ export class DocumentsRepository {
 
   async remove(id: string): Promise<Documents> {
     return this.DocumentsModel.findByIdAndDelete(id).exec();
-  }
-
-  async createDocandfolder(
-    { folderId, ...documentsValidationLayer }: createDocumentsDTOlayer,
-    folderName: string
-  ): Promise<Documents> {
-    let savedDocuments;
-    let findFolder;
-    if (folderId) {
-      findFolder = await this.FolderModel.findById(folderId);
-    }
-    if (!findFolder && folderName) {
-      findFolder = await this.FolderModel.create({ Name: folderName });
-      savedDocuments = await this.DocumentsModel.create({
-        ...documentsValidationLayer,
-        folderId: findFolder._id
-      });
-      await this.FolderModel.findByIdAndUpdate(findFolder._id, {
-        $push: {
-          documents: savedDocuments._id
-        }
-      });
-
-      return savedDocuments;
-    }
   }
 }

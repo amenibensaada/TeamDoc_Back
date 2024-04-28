@@ -9,7 +9,10 @@ export class DocumentService {
   async findAll() {
     return this.DocRepositroy.findAll();
   }
-
+  async findByFolderId(folderId: string): Promise<Documents[]> {
+    return this.DocRepositroy.findByFolderId(folderId);
+  }
+  
   async findOne(id: string) {
     return this.DocRepositroy.findOne(id);
   }
@@ -17,14 +20,14 @@ export class DocumentService {
   async create(createDocValidator: any): Promise<Documents> {
     return this.DocRepositroy.create(createDocValidator);
   }
-
-  async createavecaffectation(createDocValidator: any): Promise<Documents> {
-    return this.DocRepositroy.createavecaffectation(createDocValidator);
+  
+  async createWithFolderId(folderId: string, createDocValidator: any): Promise<Documents> {
+    return this.DocRepositroy.createWithFolderId(folderId, createDocValidator);
   }
+  
 
-  async createDocandfolder(createDocValidator: any, foldername: string): Promise<Documents> {
-    return this.DocRepositroy.createDocandfolder(createDocValidator, foldername);
-  }
+
+
 
   async update(id: string, createDocValidator: any) {
     return this.DocRepositroy.update(id, createDocValidator);
