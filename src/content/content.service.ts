@@ -1,15 +1,15 @@
+import { RealTimeService } from './../real-time/real-time.service';
 import { Injectable } from '@nestjs/common';
 import { Content } from './content.schema';
 
 import { createContentDTO } from './dto/create-content-dto';
-import { RealTimeService } from 'src/real-time/real-time.service';
+
 import { ContentRepository } from './content.repository';
 
 @Injectable()
 export class ContentService {
-  constructor(private readonly contentRepository: ContentRepository , 
-    private readonly realTimeService: RealTimeService
-  ) {}
+ 
+  constructor(private readonly contentRepository: ContentRepository , realTimeService : RealTimeService ) {}
   
   
 
