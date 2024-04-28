@@ -23,4 +23,12 @@ export class ContentRepository {
     const contents = await this.contentModel.find().exec();
     return contents;
   }
+  async updateContentById(id: string, updatedContent: string): Promise<Content | undefined> {
+    const updatedContentResult = await this.contentModel.findByIdAndUpdate(id, { content: updatedContent }, { new: true });
+    return updatedContentResult;
+  }
+
+  async findOneById(id: string): Promise<Content | undefined> {
+    return this.contentModel.findById(id).exec();
+  }
 }

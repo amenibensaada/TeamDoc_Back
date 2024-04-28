@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { createContentDTO } from './dto/create-content-dto';
 import { ContentService } from './content.service';
 import { Content } from './content.schema';
