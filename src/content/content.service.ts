@@ -9,8 +9,10 @@ import { ContentRepository } from './content.repository';
 @Injectable()
 export class ContentService {
  
- constructor(private readonly contentRepository: ContentRepository) {}
-  
+  constructor(
+    private readonly contentRepository: ContentRepository,
+    private readonly realTimeService: RealTimeService,
+  ) {}
   
 
   async createContent(createContent: createContentDTO): Promise<Content> {
