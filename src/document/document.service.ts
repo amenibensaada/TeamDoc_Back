@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Documents } from './document.schema';
 import { DocumentsRepository } from './document.repository';
+import { FolderRepository } from '../folder/folder.repository';
+import { Folder } from 'src/folder/folder.schema';
 
 @Injectable()
 export class DocumentService {
-  constructor(private DocRepositroy: DocumentsRepository) {}
+  constructor(private DocRepositroy: DocumentsRepository,  private folderRepository: FolderRepository
+  ) {}
 
   async findAll() {
     return this.DocRepositroy.findAll();
@@ -35,5 +38,8 @@ export class DocumentService {
 
   async remove(id: string) {
     return this.DocRepositroy.remove(id);
+  }
+  async findFolderById(id: string): Promise<Folder> {
+    return this.folderRepository.findById(id);
   }
 }

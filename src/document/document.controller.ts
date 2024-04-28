@@ -2,6 +2,7 @@ import { Documents } from './document.schema';
 import { createDocumentsDTOlayer } from './dto/create-document.dto';
 import { DocumentService } from './document.service';
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Folder } from 'src/folder/folder.schema';
 @Controller('Document')
 export class DocumentController {
   constructor(private readonly DocService: DocumentService) {}
@@ -48,5 +49,9 @@ export class DocumentController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Documents> {
     return this.DocService.remove(id);
+  }
+  @Get('folder/:folderId')
+  async getFolderById(@Param('folderId') folderId: string): Promise<Folder | null> {
+    return this.DocService.findFolderById(folderId);
   }
 }

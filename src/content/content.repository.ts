@@ -23,4 +23,15 @@ export class ContentRepository {
     const contents = await this.contentModel.find().exec();
     return contents;
   }
+  async getDocumentId(contentId: string): Promise<string | null> {
+    const content = await this.contentModel.findById(contentId).exec();
+    if (content) {
+      return content.documentId;
+    }
+    return null;
+  }
+  async findByDocumentId(documentId: string): Promise<Content | null> {
+    return this.contentModel.findOne({ documentId }).exec();
+  }
+  
 }

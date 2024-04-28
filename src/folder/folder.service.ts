@@ -17,16 +17,19 @@ export class FolderService {
     console.log(`Fetching folders for user ${userId}, page: ${page}, and perPage: ${perPage}`);
     return this.folderRepository.findAll(userId, skip, perPage);
   }
-
   async search(keyword: string, userId: string, page: number, perPage: number): Promise<Folder[]> {
     const skip = (page - 1) * perPage;
-
+  
+    
     return this.folderRepository.search(keyword, userId, skip, perPage);
   }
-
-  async findOne(id: string, userId: string) {
-    return this.folderRepository.findOne(id, userId);
-  }
+  
+   
+    async findOne(id: string, userId: string) {
+      return this.folderRepository.findOne(id, userId);
+    }
+  
+  
 
   async create(createFolderDto: createFolderDTOlayer, user: string): Promise<createFolderDTOlayer> {
     return this.folderRepository.create(createFolderDto, user);
@@ -104,5 +107,33 @@ async ignoreAccess(folderId: string, userIdToIgnore: string): Promise<Folder> {
   return updatedFolder;
 }
 
+// Dans le service FolderService
+
+
+async getFolderCreationData(): Promise<{ date: Date, folderCount: number }[]> {
+  return this.folderRepository.aggregateFolderCreationData();
+}
+async updateFolderAccess(folderId: string): Promise<boolean> {
+  try {
+    // Récupérer le dossier à mettre à jour
+    const folder = await this.folderRepository.findById(folderId);
+    
+    // Vérifier si le dossier existe
+    if (!folder) {
+      throw new Error('Folder not found');
+    }
+    
+    // Mettre à jour l'accès du dossier en fonction de l'accès actuel
+    const newAccess = folder.access === 'update' ? 'view' : 'update';
+    await this.folderRepository.update(folderId, { access: newAccess });
+    return true;
+  } catch (error) {
+    console.error('Failed to update folder access:', error);
+    return false;
+  }
+}
+
 
 }
+
+

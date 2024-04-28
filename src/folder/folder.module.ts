@@ -12,6 +12,8 @@ import { EmailService } from '../email/email.service'; // Importez EmailService 
 
 @Module({
   controllers: [FolderController],
+  exports: [MongooseModule, FolderRepository],
+
   providers: [FolderService, FolderRepository,UsersService,UserRepository,EmailService],
   imports: [MongooseModule.forFeature([{ name: Folder.name, schema: FolderSchema }]),UsersModule]
 })

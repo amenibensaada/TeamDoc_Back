@@ -100,6 +100,22 @@ async getSharedFolders(@Req() req): Promise<Folder[]> {
       console.log('User ID to ignore:', userIdToIgnore);
       return this.folderService.ignoreAccess(folderId, userIdToIgnore);
     }
+    @Get('folder-creation-data')
+  async getFolderCreationData(): Promise<{ date: Date, folderCount: number }[]> {
+    return this.folderService.getFolderCreationData();
+  }
+  @Patch('toggle-access/:id')
+async toggleAccess(@Param('id') id: string): Promise<boolean> {
+  try {
+    console.log('Toggling access for folder:', id);
+    const success = await this.folderService.updateFolderAccess(id);
+    return success;
+  } catch (error) {
+    console.error('Failed to toggle folder access:', error);
+    throw error;
+  }
+}
+
     
     
     
