@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Content } from './content.schema';
-import { ContentRepository } from './content.repository';
+
 import { createContentDTO } from './dto/create-content-dto';
 import { RealTimeService } from 'src/real-time/real-time.service';
+import { ContentRepository } from './content.repository';
 
 @Injectable()
 export class ContentService {

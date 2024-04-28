@@ -7,7 +7,7 @@ import { Content, ContentSchema } from './content.schema';
 import { RealTimeService } from 'src/real-time/real-time.service'; // Vérifiez ce chemin d'importation
 
 @Module({
-  providers: [ContentService, ContentRepository, RealTimeService],
+  providers: [ContentService, ContentRepository],
   controllers: [ContentController],
   exports: [ContentService, MongooseModule], // Si ContentService doit être exporté
   imports: [MongooseModule.forFeature([{ name: Content.name, schema: ContentSchema }])]

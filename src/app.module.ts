@@ -24,6 +24,6 @@ import { RealTimeService } from './real-time/real-time.service';
     ContentModule
   ],
   controllers: [AppController],
-  providers: [AppService, RealTimeService]
+  providers: [AppService]
 })
 export class AppModule {}
