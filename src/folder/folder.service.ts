@@ -80,13 +80,10 @@ async ignoreAccess(folderId: string, userIdToIgnore: string): Promise<Folder> {
     throw new NotFoundException('Folder not found');
   }
 
-  // Supprimez l'utilisateur de la liste des utilisateurs partagés
   folder.sharedWith = folder.sharedWith.filter(user => user._id.toString() !== userIdToIgnore);
 
-  // Mettez à jour le dossier dans la base de données
   const updatedFolder = await this.folderRepository.update(folderId, folder);
 
-  // Récupérez l'utilisateur ignoré
   try {
     const userToIgnore = await this.userService.findById(userIdToIgnore);
     
@@ -107,7 +104,6 @@ async ignoreAccess(folderId: string, userIdToIgnore: string): Promise<Folder> {
   return updatedFolder;
 }
 
-// Dans le service FolderService
 
 
 async getFolderCreationData(): Promise<{ date: Date, folderCount: number }[]> {
@@ -115,15 +111,12 @@ async getFolderCreationData(): Promise<{ date: Date, folderCount: number }[]> {
 }
 async updateFolderAccess(folderId: string): Promise<boolean> {
   try {
-    // Récupérer le dossier à mettre à jour
     const folder = await this.folderRepository.findById(folderId);
     
-    // Vérifier si le dossier existe
     if (!folder) {
       throw new Error('Folder not found');
     }
     
-    // Mettre à jour l'accès du dossier en fonction de l'accès actuel
     const newAccess = folder.access === 'update' ? 'view' : 'update';
     await this.folderRepository.update(folderId, { access: newAccess });
     return true;
@@ -132,6 +125,7 @@ async updateFolderAccess(folderId: string): Promise<boolean> {
     return false;
   }
 }
+
 
 
 }
