@@ -9,7 +9,7 @@ import { ContentRepository } from './content.repository';
 @Injectable()
 export class ContentService {
  
-  constructor(private readonly contentRepository: ContentRepository , realTimeService : RealTimeService ) {}
+ constructor(private readonly contentRepository: ContentRepository) {}
   
   
 
