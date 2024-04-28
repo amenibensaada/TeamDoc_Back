@@ -19,9 +19,4 @@ export class OpenAiService {
 
     return completion.choices[0].text.trim();
   }
-  //   async askQuestion(question: string): Promise<string> {
-  //     const generatedStory = await createPrompt(question);
-
-  //     return generatedStory;
-  //   }
 }
