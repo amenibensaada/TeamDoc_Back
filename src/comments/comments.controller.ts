@@ -11,9 +11,9 @@ export class CommentsController {
     return this.commentsService.create(comment);
   }
 
-  @Get()
-  async findAll(): Promise<Comment[]> {
-    return this.commentsService.findAll();
+  @Get('/document/:documentId')
+  async findAll(@Param('documentId') documentId: string): Promise<Comment[]> {
+    return this.commentsService.findAll(documentId);
   }
 
   @Get(':id')

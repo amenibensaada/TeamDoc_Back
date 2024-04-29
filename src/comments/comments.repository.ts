@@ -12,8 +12,12 @@ export class CommentsRepository {
     return createdComment.save();
   }
 
-  async findAll(): Promise<Comment[]> {
-    return this.commentModel.find().exec();
+  async findAll(documentId: string): Promise<Comment[]> {
+    return this.commentModel
+      .find({ document: documentId })
+      .populate('user')
+      .sort({ _id: -1 })
+      .exec();
   }
 
   async findOne(id: string): Promise<Comment> {
