@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { FolderModule } from './folder/folder.module';
 import { DocumentModule } from './document/document.module';
 import { ContentModule } from './content/content.module';
+import { MailingModule } from './mailing/mailing.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { ContentModule } from './content/content.module';
     }),
     FolderModule,
     DocumentModule,
-    ContentModule
+    ContentModule,
+    MailingModule
   ],
   controllers: [AppController],
   providers: [AppService]
