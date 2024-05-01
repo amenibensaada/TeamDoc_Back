@@ -2,7 +2,13 @@ import { WebSocketGateway, OnGatewayInit, OnGatewayConnection, OnGatewayDisconne
 import { Server, Socket } from 'socket.io';
 import { RealTimeService } from 'src/real-time/real-time.service';
 
-@WebSocketGateway()
+@WebSocketGateway(
+  {
+    cors: {
+      origin : '*'
+    }
+  }
+)
 export class RealTimeGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly realTimeService: RealTimeService) {}
 

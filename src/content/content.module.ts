@@ -5,9 +5,10 @@ import { ContentRepository } from './content.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Content, ContentSchema } from './content.schema';
 import { RealTimeService } from 'src/real-time/real-time.service'; // Vérifiez ce chemin d'importation
+import { RealTimeGateway } from './real-time-gateways';
 
 @Module({
-  providers: [ContentService, RealTimeService, ContentRepository],
+  providers: [ContentService, RealTimeService, ContentRepository , RealTimeGateway],
   controllers: [ContentController],
   exports: [ContentService, MongooseModule], // Si ContentService doit être exporté
   imports: [MongooseModule.forFeature([{ name: Content.name, schema: ContentSchema }])]
