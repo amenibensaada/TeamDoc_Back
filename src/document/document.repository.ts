@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Documents } from './document.schema';
@@ -42,8 +42,6 @@ export class DocumentsRepository {
       throw new Error('Folder not found');
     }
 
-   
-
     const savedDocuments = await createDocuments.save();
 
     await this.ContentModel.create({
@@ -62,7 +60,7 @@ export class DocumentsRepository {
   }
 
   async findAll(): Promise<Documents[]> {
-    return this.DocumentsModel.find().exec();
+    return this.DocumentsModel.find({ archived: false }).exec();
   }
   // findAlldocumentsbyfolder
   async findByFolderId(folderId: string): Promise<Documents[]> {
@@ -81,5 +79,22 @@ export class DocumentsRepository {
 
   async remove(id: string): Promise<Documents> {
     return this.DocumentsModel.findByIdAndDelete(id).exec();
+  }
+
+  async archivePost(id: number): Promise<Documents> {
+    const post = await this.DocumentsModel.findOne({ id });
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+    post.archived = true;
+    return post.save();
+  }
+  async archivede(id: number): Promise<Documents> {
+    const post = await this.DocumentsModel.findOne({ id });
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+    post.archived = false;
+    return post.save();
   }
 }

@@ -1,12 +1,16 @@
 import { Documents } from './document.schema';
 import { createDocumentsDTOlayer } from './dto/create-document.dto';
 import { DocumentService } from './document.service';
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
 @Controller('Document')
 export class DocumentController {
   constructor(private readonly DocService: DocumentService) {}
 
-
+ 
+  @Post('/dearchive/:id')
+  async archivedea(@Param('id') id: number) {
+    return this.DocService.archivede(id);
+  }
 
   @Get()
   async findAll(): Promise<Documents[]> {
@@ -44,7 +48,10 @@ export class DocumentController {
   ): Promise<Documents> {
     return this.DocService.update(id, updatedocuDto);
   }
-
+  @Put('/archive/:id')
+  async archivePost(@Param('id') id: number) {
+    return this.DocService.archivePost(id);
+  }
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Documents> {
     return this.DocService.remove(id);
