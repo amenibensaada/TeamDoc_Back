@@ -17,6 +17,11 @@ export class Documents {
   contentType: string[];
   @Prop({ required: false })
   folderId?: string;
+  @Prop({ default: false })
+  archived: boolean;
+
+
+
 }
 
 export const DocumentsSchema = SchemaFactory.createForClass(Documents);
