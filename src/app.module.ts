@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { FolderModule } from './folder/folder.module';
 import { DocumentModule } from './document/document.module';
 import { ContentModule } from './content/content.module';
+import { MailingModule } from './mailing/mailing.module';
 import { OpenAiModule } from './open-ai/open-ai.module';
 import { EmailService } from './email/email.service';
 import { CommentsModule } from './comments/comments.module';
@@ -23,6 +24,7 @@ import { CommentsModule } from './comments/comments.module';
     FolderModule,
     DocumentModule,
     ContentModule,
+    MailingModule,
     OpenAiModule,
     CommentsModule
   ],
