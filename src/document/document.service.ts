@@ -36,4 +36,10 @@ export class DocumentService {
   async remove(id: string) {
     return this.DocRepositroy.remove(id);
   }
+  async archivePost(id: number): Promise<Documents> {
+    return this.DocRepositroy.archivePost(id);
+  }
+  async archivede(id: number): Promise<Documents> {
+    return this.DocRepositroy.archivede(id);
+  }
 }
