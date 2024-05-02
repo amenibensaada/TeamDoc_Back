@@ -13,20 +13,23 @@ export class FolderService {
 ) {}
 
   async findAll(userId: string, page: number = 1, perPage: number = 3): Promise<Folder[]> {
-    const skip = Math.max(0, (page - 1) * perPage); // Assurez-vous que skip est au moins égal à 0
+    const skip = Math.max(0, (page - 1) * perPage); 
     console.log(`Fetching folders for user ${userId}, page: ${page}, and perPage: ${perPage}`);
     return this.folderRepository.findAll(userId, skip, perPage);
   }
-
   async search(keyword: string, userId: string, page: number, perPage: number): Promise<Folder[]> {
     const skip = (page - 1) * perPage;
-
+  
+    
     return this.folderRepository.search(keyword, userId, skip, perPage);
   }
-
-  async findOne(id: string, userId: string) {
-    return this.folderRepository.findOne(id, userId);
-  }
+  
+   
+    async findOne(id: string, userId: string) {
+      return this.folderRepository.findOne(id, userId);
+    }
+  
+  
 
   async create(createFolderDto: createFolderDTOlayer, user: string): Promise<createFolderDTOlayer> {
     return this.folderRepository.create(createFolderDto, user);
@@ -77,13 +80,10 @@ async ignoreAccess(folderId: string, userIdToIgnore: string): Promise<Folder> {
     throw new NotFoundException('Folder not found');
   }
 
-  // Supprimez l'utilisateur de la liste des utilisateurs partagés
   folder.sharedWith = folder.sharedWith.filter(user => user._id.toString() !== userIdToIgnore);
 
-  // Mettez à jour le dossier dans la base de données
   const updatedFolder = await this.folderRepository.update(folderId, folder);
 
-  // Récupérez l'utilisateur ignoré
   try {
     const userToIgnore = await this.userService.findById(userIdToIgnore);
     
@@ -92,9 +92,10 @@ async ignoreAccess(folderId: string, userIdToIgnore: string): Promise<Folder> {
     }
 
     const userEmail = userToIgnore.email;
+    const folderName = folder.Name;
 
-    const subject = 'Accès au dossier ignoré';
-    const text = 'Vous avez été ignoré lors de l\'accès à un dossier.';
+    const subject = `Autorisation`;
+    const text = `Bonjour ${userToIgnore.lastName}, Accès au dossier"${folderName}"ignoré.`;
     await this.emailService.sendEmail(userEmail, subject, text);
     console.log('E-mail envoyé à l\'utilisateur ignoré avec succès !');
   } catch (error) {
@@ -105,4 +106,35 @@ async ignoreAccess(folderId: string, userIdToIgnore: string): Promise<Folder> {
 }
 
 
+
+async getFolderCreationData(): Promise<{ date: Date, folderCount: number }[]> {
+  return this.folderRepository.aggregateFolderCreationData();
 }
+async updateFolderAccess(folderId: string): Promise<boolean> {
+  try {
+    const folder = await this.folderRepository.findById(folderId);
+    
+    if (!folder) {
+      throw new Error('Folder not found');
+    }
+    
+    const newAccess = folder.access === 'update' ? 'view' : 'update';
+    await this.folderRepository.update(folderId, { access: newAccess });
+    return true;
+  } catch (error) {
+    console.error('Failed to update folder access:', error);
+    return false;
+  }
+}
+
+async getSharedFolderCount(): Promise<{ folderName: string, shareCount: number }[]> {
+  return this.folderRepository.getSharedFolderCount();
+}
+}
+
+
+
+
+
+
+

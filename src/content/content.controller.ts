@@ -21,4 +21,13 @@ export class ContentController {
   async getAllContents() {
     return this.contentService.getAllContentst();
   }
+  @Get('/:id/documentId')
+  async getDocumentId(@Param('id') id: string): Promise<string | null> {
+    return this.contentService.getDocumentId(id);
+  }
+  @Get('document/:documentId')
+  async getDocumentById(@Param('documentId') documentId: string): Promise<Content | null> {
+    return this.contentService.getdocumentById(documentId);
+  }
 }
+

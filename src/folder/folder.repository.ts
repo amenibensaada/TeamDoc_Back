@@ -66,16 +66,13 @@ if (!folder) {
   throw new NotFoundException('Folder not found');
 }
 
-// Vérifiez d'abord si l'utilisateur à ignorer existe dans la liste des utilisateurs partagés
 const userIndex = folder.sharedWith.findIndex(user => user.toString() === userIdToIgnore);
 if (userIndex === -1) {
   throw new NotFoundException('User to ignore not found in shared users');
 }
 
-// Supprimer l'utilisateur de la liste des utilisateurs partagés
 folder.sharedWith.splice(userIndex, 1);
 
-// Mettez à jour le document dans la base de données
 const updatedFolder = await this.folderModel.findByIdAndUpdate(folderId, folder, { new: true }).exec();
 if (!updatedFolder) {
   throw new NotFoundException('Failed to update folder');
@@ -83,5 +80,45 @@ if (!updatedFolder) {
 
 return updatedFolder;
 }
+
+async aggregateFolderCreationData(): Promise<{ date: Date, folderCount: number }[]> {
+  return this.folderModel.aggregate([
+    {
+      $group: {
+        _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdDate' } },
+        folderCount: { $sum: 1 }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        date: { $toDate: '$_id' },
+        folderCount: 1
+      }
+    }
+  ]);
+}
+
+async getSharedFolderCount(): Promise<{ folderName: string, shareCount: number }[]> {
+  const sharedFolders = await this.folderModel.aggregate([
+    {
+      $match: {
+        sharedWith: { $exists: true, $ne: [] } // Filtrer les documents avec le champ sharedWith non vide
+      }
+    },
+    {
+      $project: {
+        Name: 1, // Inclure le champ Name dans le résultat
+        shareCount: { $size: "$sharedWith" }
+      }
+    }
+  ]);
+
+  return sharedFolders.map(folder => ({
+    folderName: folder.Name,
+    shareCount: folder.shareCount
+  }));
+}
+
 
 }

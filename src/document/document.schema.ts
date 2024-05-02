@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
+import { Content } from 'src/content/content.schema';
 
 export type DocumentsDocument = Documents & Document;
 
@@ -19,9 +21,6 @@ export class Documents {
   folderId?: string;
   @Prop({ default: false })
   archived: boolean;
-
-
-
 }
 
 export const DocumentsSchema = SchemaFactory.createForClass(Documents);

@@ -2,11 +2,11 @@ import { Documents } from './document.schema';
 import { createDocumentsDTOlayer } from './dto/create-document.dto';
 import { DocumentService } from './document.service';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Folder } from 'src/folder/folder.schema';
 @Controller('Document')
 export class DocumentController {
   constructor(private readonly DocService: DocumentService) {}
 
- 
   @Post('/dearchive/:id')
   async archivedea(@Param('id') id: number) {
     return this.DocService.archivede(id);
@@ -17,13 +17,10 @@ export class DocumentController {
     return this.DocService.findAll();
   }
 
-  
   @Get('/documents/:folderId')
   async findAllDoumentByFolderId(@Param('folderId') folderId: string): Promise<Documents[]> {
     return this.DocService.findByFolderId(folderId);
   }
-
-
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Documents> {
@@ -55,5 +52,9 @@ export class DocumentController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Documents> {
     return this.DocService.remove(id);
+  }
+  @Get('folder/:folderId')
+  async getFolderById(@Param('folderId') folderId: string): Promise<Folder | null> {
+    return this.DocService.findFolderById(folderId);
   }
 }

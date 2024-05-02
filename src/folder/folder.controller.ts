@@ -8,8 +8,7 @@ import {
   Delete,
   Query,
   Req,
-  UseGuards,
-  NotFoundException
+  UseGuards
 } from '@nestjs/common';
 import { Folder } from './folder.schema';
 import { createFolderDTOlayer } from './dto/create-folder.dto';
@@ -66,6 +65,11 @@ export class FolderController {
     }
   }
 
+  @Get('shared/count')
+  async getSharedFolderCount(): Promise<{ folderName: string; shareCount: number }[]> {
+    return this.folderService.getSharedFolderCount();
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -81,20 +85,14 @@ export class FolderController {
   //   return await this.folderService.removeSelected(folderIds);
   // }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<Folder> {
-    return this.folderService.remove(id);
-  }
   @Post(':id/share')
   async shareFolder(@Param('id') id: string, @Body('userIdToShareWith') userIdToShareWith: string) {
     return this.folderService.shareFolder(id, userIdToShareWith);
   }
 
-  @Get('getbyidfolder/:id')
-  async findOne(@Param('id') id: string, @Req() req): Promise<Folder> {
-    const userId = req.user.id;
-    console.log(userId);
-    return this.folderService.findOne(id, userId);
+  @Delete(':id')
+  async remove(@Param('id') id: string): Promise<Folder> {
+    return this.folderService.remove(id);
   }
 
   @Delete(':folderId/ignore-access/:userIdToIgnore')
@@ -105,5 +103,28 @@ export class FolderController {
     console.log('Folder ID:', folderId);
     console.log('User ID to ignore:', userIdToIgnore);
     return this.folderService.ignoreAccess(folderId, userIdToIgnore);
+  }
+
+  @Get('folder-creation-data')
+  async getFolderCreationData(): Promise<{ date: Date; folderCount: number }[]> {
+    return this.folderService.getFolderCreationData();
+  }
+  @Patch('toggle-access/:id')
+  async toggleAccess(@Param('id') id: string): Promise<boolean> {
+    try {
+      console.log('Toggling access for folder:', id);
+      const success = await this.folderService.updateFolderAccess(id);
+      return success;
+    } catch (error) {
+      console.error('Failed to toggle folder access:', error);
+      throw error;
+    }
+  }
+
+  @Get('getbyidfolder/:id')
+  async findOne(@Param('id') id: string, @Req() req): Promise<Folder> {
+    const userId = req.user.id;
+    console.log(userId);
+    return this.folderService.findOne(id, userId);
   }
 }
