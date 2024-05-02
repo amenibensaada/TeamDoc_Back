@@ -3,7 +3,6 @@ import { Document } from 'mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 import { Content } from 'src/content/content.schema';
 
-
 export type DocumentsDocument = Documents & Document;
 
 @Schema()
@@ -20,8 +19,8 @@ export class Documents {
   contentType: string[];
   @Prop({ required: false })
   folderId?: string;
-
-
+  @Prop({ default: false })
+  archived: boolean;
 }
 
 export const DocumentsSchema = SchemaFactory.createForClass(Documents);

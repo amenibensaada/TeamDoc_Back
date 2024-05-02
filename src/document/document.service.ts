@@ -6,7 +6,9 @@ import { Folder } from 'src/folder/folder.schema';
 
 @Injectable()
 export class DocumentService {
-  constructor(private DocRepositroy: DocumentsRepository,  private folderRepository: FolderRepository
+  constructor(
+    private DocRepositroy: DocumentsRepository,
+    private folderRepository: FolderRepository
   ) {}
 
   async findAll() {
@@ -15,7 +17,7 @@ export class DocumentService {
   async findByFolderId(folderId: string): Promise<Documents[]> {
     return this.DocRepositroy.findByFolderId(folderId);
   }
-  
+
   async findOne(id: string) {
     return this.DocRepositroy.findOne(id);
   }
@@ -23,14 +25,10 @@ export class DocumentService {
   async create(createDocValidator: any): Promise<Documents> {
     return this.DocRepositroy.create(createDocValidator);
   }
-  
+
   async createWithFolderId(folderId: string, createDocValidator: any): Promise<Documents> {
     return this.DocRepositroy.createWithFolderId(folderId, createDocValidator);
   }
-  
-
-
-
 
   async update(id: string, createDocValidator: any) {
     return this.DocRepositroy.update(id, createDocValidator);
@@ -41,5 +39,11 @@ export class DocumentService {
   }
   async findFolderById(id: string): Promise<Folder> {
     return this.folderRepository.findById(id);
+  }
+  async archivePost(id: number): Promise<Documents> {
+    return this.DocRepositroy.archivePost(id);
+  }
+  async archivede(id: number): Promise<Documents> {
+    return this.DocRepositroy.archivede(id);
   }
 }

@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './users.schema';
 import { CreateUserInput } from './dto/createUserDto';
+import { hash } from 'bcryptjs';
+
 export type UserWithoutPassword = Omit<
   User,
   'password' | 'resetTokenExpiry' | 'resetToken' | 'verificationToken'
@@ -37,8 +39,13 @@ export class UserRepository {
   }
 
   async update(id: string, updateUserDto: any): Promise<UserWithoutPassword> {
+    const { password, ...updateData } = updateUserDto;
+    if (password) {
+      const hashedPassword = await hash(password, 0);
+      updateData.password = hashedPassword;
+    }
     const updatedUser = await this.userModel
-      .findByIdAndUpdate(id, updateUserDto, { new: true })
+      .findByIdAndUpdate(id, updateData, { new: true })
       .exec();
     return this.exclude(updatedUser.toObject(), ['password']);
   }
@@ -54,7 +61,6 @@ export class UserRepository {
   }
   async getOneWithPasswordById(id: string): Promise<User | null> {
     return this.userModel.findById(id).select('+password').lean().exec();
-    
   }
   async findById(id: string): Promise<User | null> {
     return this.userModel.findById(id).exec();
