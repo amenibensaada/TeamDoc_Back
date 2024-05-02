@@ -19,6 +19,16 @@ export class RealTimeService {
         console.log(`Client disconnected: ${socket.id}`);
       });
 
+      socket.on('message', (data) => {
+        console.log(`Received message from client ${socket.id}: ${data}`);
+        
+        // Broadcast the received message to all clients except the sender
+        socket.broadcast.emit('serverMessage', data);
+        console.log(`Message broadcasted to all clients except ${socket.id}: ${data}  test`);
+      });
+
+      
+
       socket.on('updateContent', async (content: Content) => {
         console.log(`Updating content: ${content.id}`);
         const updatedContent = await this.contentRepository.updateContentById(content.id, content.content);
@@ -32,6 +42,7 @@ export class RealTimeService {
   emitContentUpdate(documentId: string, updatedContent: string) {
     if (this.server) {
       this.server.emit('contentUpdate', { documentId, updatedContent });
+      console.log(`Content update emitted for document ID ${documentId}`);
     } else {
       console.error('Server is not initialized.');
     }

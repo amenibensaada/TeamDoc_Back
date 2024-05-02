@@ -16,11 +16,17 @@ export class RealTimeGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
   afterInit() {
     this.realTimeService.initialize(this.server);
+    
   }
+
+  
 
   handleConnection(client: Socket) {
     console.log(`Client connected: ${client.id}`);
   }
+  
+  
+
 
   handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);

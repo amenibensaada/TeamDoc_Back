@@ -27,4 +27,5 @@ export class ContentController {
     const updatedContent = await this.contentService.updateContentRealTime(id, updateContentDTO.content);
     return updatedContent;
 }
+
 }
