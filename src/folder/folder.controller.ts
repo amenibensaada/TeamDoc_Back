@@ -58,6 +58,10 @@ async getSharedFolders(@Req() req): Promise<Folder[]> {
     throw error;
   }
 }
+@Get('shared/count')
+  async getSharedFolderCount(): Promise<{ folderName: string, shareCount: number }[]> {
+    return this.folderService.getSharedFolderCount();
+  }
 
 
   @Patch(':id')
@@ -114,6 +118,7 @@ async toggleAccess(@Param('id') id: string): Promise<boolean> {
     console.error('Failed to toggle folder access:', error);
     throw error;
   }
+  
 }
 
     

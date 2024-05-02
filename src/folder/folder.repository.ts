@@ -99,5 +99,26 @@ async aggregateFolderCreationData(): Promise<{ date: Date, folderCount: number }
   ]);
 }
 
+async getSharedFolderCount(): Promise<{ folderName: string, shareCount: number }[]> {
+  const sharedFolders = await this.folderModel.aggregate([
+    {
+      $match: {
+        sharedWith: { $exists: true, $ne: [] } // Filtrer les documents avec le champ sharedWith non vide
+      }
+    },
+    {
+      $project: {
+        Name: 1, // Inclure le champ Name dans le résultat
+        shareCount: { $size: "$sharedWith" }
+      }
+    }
+  ]);
+
+  return sharedFolders.map(folder => ({
+    folderName: folder.Name,
+    shareCount: folder.shareCount
+  }));
+}
+
 
 }

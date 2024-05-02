@@ -13,7 +13,7 @@ export class FolderService {
 ) {}
 
   async findAll(userId: string, page: number = 1, perPage: number = 3): Promise<Folder[]> {
-    const skip = Math.max(0, (page - 1) * perPage); // Assurez-vous que skip est au moins égal à 0
+    const skip = Math.max(0, (page - 1) * perPage); 
     console.log(`Fetching folders for user ${userId}, page: ${page}, and perPage: ${perPage}`);
     return this.folderRepository.findAll(userId, skip, perPage);
   }
@@ -92,9 +92,10 @@ async ignoreAccess(folderId: string, userIdToIgnore: string): Promise<Folder> {
     }
 
     const userEmail = userToIgnore.email;
+    const folderName = folder.Name;
 
-    const subject = 'Accès au dossier ignoré';
-    const text = 'Vous avez été ignoré lors de l\'accès à un dossier.';
+    const subject = `Autorisation`;
+    const text = `Bonjour ${userToIgnore.lastName}, Accès au dossier"${folderName}"ignoré.`;
     await this.emailService.sendEmail(userEmail, subject, text);
     console.log('E-mail envoyé à l\'utilisateur ignoré avec succès !');
   } catch (error) {
@@ -126,8 +127,14 @@ async updateFolderAccess(folderId: string): Promise<boolean> {
   }
 }
 
-
-
+async getSharedFolderCount(): Promise<{ folderName: string, shareCount: number }[]> {
+  return this.folderRepository.getSharedFolderCount();
 }
+}
+
+
+
+
+
 
 
